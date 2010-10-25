@@ -32,6 +32,7 @@ Launch interpreter :
 </code>
 
 Example of available commands :
+
 * List virtual machines on an esx server : `list my_server`
 * Power on virtual machine on an esx server : `power_on my_server vm_name`
 * Power off virtual machine on an esx server : `power_off my_server vm_name`
