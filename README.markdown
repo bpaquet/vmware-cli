@@ -18,9 +18,9 @@ This CLI does not allow VMWare Converter operation and is based on vmx filename 
 
 Edit `config.properties` and add a section describing a new esx server :
 <code>
-	esx.my\_server.hostname = hostname.toto.com
-	esx.my\_server.username = root
-	esx.my\_server.password = root\_password
+	esx.my_server.hostname = hostname.toto.com
+	esx.my_server.username = root
+	esx.my_server.password = root_password
 </code>
 
 ## Basic commands
@@ -40,6 +40,7 @@ Edit `config.properties` and add a section describing a new esx server :
 
 ## Compilation
 
+To compile vmware-cli :
 <code>
 	git clone git://github.com/bpaquet/vmware-cli.git
 	cd vmware-cli
