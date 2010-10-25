@@ -13,7 +13,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 public class ListVms implements ICommand {
 
 	public String getCommandHelp() {
-		return "list esx_server_name : list vms of an esx server";
+		return "list esx_name                       : list virtual machiness of an esx server";
 	}
 
 	public String getCommandName() {
@@ -25,15 +25,15 @@ public class ListVms implements ICommand {
 			throw new SyntaxError();
 		}
 		String esxName = args[0];
-		VimServiceUtil vimServiceUtil = new VimServiceUtil(esxName);
+		VimServiceUtil vimServiceUtil = VimServiceUtil.get(esxName);
 		List<VmInfo> vmsList = VmsListService.getVmsList(vimServiceUtil);
 
 		System.out.println("Found " + vmsList.size() + " VM(s) on " + esxName);
 		if (vmsList.size() > 0) {
-			System.out.println(String.format("%-36s %-30s %11s %-9s %-40s", "UUID", "VM Name", "Status", "CPU/RAM", "Guest"));
-			System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+			System.out.println(String.format("%-30s %11s %-9s %-40s", "VM Name", "Status", "CPU/RAM", "Guest"));
+			System.out.println("--------------------------------------------------------------------------------------");
 			for (VmInfo info : vmsList) {
-				System.out.println(String.format("%s %-30s %11s %2d %6d %s", info.getUuid(), info.getName(), info.getStatus(), info.getCpu(), info.getRam(), formatGuest(info)));
+				System.out.println(String.format("%-30s %11s %2d %6d %s", info.getName(), info.getStatus(), info.getCpu(), info.getRam(), formatGuest(info)));
 			}
 		}
 	}
@@ -45,6 +45,10 @@ public class ListVms implements ICommand {
 		else {
 			return VirtualMachinePowerState.POWERED_ON.toString().equals(vmInfo.getStatus()) ? vmInfo.getGuestToolsStatus() : "";
 		}
+	}
+	
+	public Target getTarget() {
+		return Target.ESX;
 	}
 
 }

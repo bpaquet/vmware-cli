@@ -2,18 +2,20 @@ package com.octo.vmware.commands;
 
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;
+import com.octo.vmware.entities.VmLocation;
 import com.octo.vmware.services.VmsListService;
 import com.octo.vmware.utils.VimServiceUtil;
 
 public class Show implements ICommand {
 
 	public void execute(String[] args) throws Exception {
-		if (args.length != 2) {
+		if (args.length != 1) {
 			throw new SyntaxError();
 		}
-		VimServiceUtil vimServiceUtil = new VimServiceUtil(args[0]);
-		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, args[1]);
-		System.out.println("VM '" + args[1] + "' on " + args[0]);
+		VmLocation vmLocation = new VmLocation(args[0]);
+		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
+		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
+		System.out.println("Virtual machine '" + vmLocation.getVmName() + "' on " + vmLocation.getEsxName());
 		System.out.println("Status : " + vmInfo.getStatus());
 		System.out.println("RAM : " + vmInfo.getRam());
 		System.out.println("CPU : " + vmInfo.getCpu());
@@ -35,11 +37,15 @@ public class Show implements ICommand {
 	}
 
 	public String getCommandHelp() {
-		return "show esx_server_name vm_name";
+		return "show esx_name:vm_name               : show details about a virtual machine";
 	}
 
 	public String getCommandName() {
 		return "show";
+	}
+
+	public Target getTarget() {
+		return Target.ESX;
 	}
 
 }

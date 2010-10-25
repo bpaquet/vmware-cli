@@ -1,15 +1,12 @@
 package com.octo.vmware.commands;
 
-import vim2.ManagedObjectReference;
-
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.entities.VmLocation;
-import com.octo.vmware.services.TaskInfoService;
 import com.octo.vmware.services.VmsListService;
 import com.octo.vmware.utils.VimServiceUtil;
 
-public class PowerOn implements ICommand {
+public class RebootGuest implements ICommand {
 
 	public void execute(String[] args) throws Exception {
 		if (args.length != 1) {
@@ -18,17 +15,17 @@ public class PowerOn implements ICommand {
 		VmLocation vmLocation = new VmLocation(args[0]);
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
-		System.out.println("Power on virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
-		ManagedObjectReference task = vimServiceUtil.getService().powerOnVMTask(vmInfo.getManagedObjectReference(), null);
-		System.out.println("Result : " + (TaskInfoService.waitForEnd(vimServiceUtil, task) ? "OK" : "Error"));
+		System.out.println("Reboot guest virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
+		vimServiceUtil.getService().rebootGuest(vmInfo.getManagedObjectReference());
+		System.out.println("Done");
 	}
 	
 	public String getCommandHelp() {
-		return "power_on esx_name:vm_name           : power on a virtual machine on an esx server";
+		return "reboot_guest esx_name:vm_name     : try to reboot a virtual machine on an esx server";
 	}
 
 	public String getCommandName() {
-		return "power_on";
+		return "reboot_guest";
 	}
 
 	public Target getTarget() {

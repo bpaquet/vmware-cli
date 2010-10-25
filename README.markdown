@@ -25,11 +25,23 @@ Edit `config.properties` and add a section describing a new esx server :
 
 ## Basic commands
 
-* List virtual machines on an esx server : `./vmware-cli.sh list my_server`
-* Power on virtual machine on an esx server : `./vmware-cli.sh power_on my_server vm_name`
-* Power off virtual machine on an esx server : `./vmware-cli.sh power_off my_server vm_name`
-* Get details about a virtual machine on an esx server : `./vmware-cli.sh show my_server vm_name`
-* Get full command list : `./vmware-cli.sh`
+Launch interpreter :
+<code>
+	./vmware-cli.sh
+	VMWare-Cli>_
+</code>
+
+Example of available commands :
+* List virtual machines on an esx server : `list my_server`
+* Power on virtual machine on an esx server : `power_on my_server vm_name`
+* Power off virtual machine on an esx server : `power_off my_server vm_name`
+* Get details about a virtual machine on an esx server : `show my_server vm_name`
+* Get full command list : `help`
+
+Remark : you can launch all commands without interpreter :
+<code>
+	./vmware_cli.sh list my_server
+</code>
 
 # Installation
 

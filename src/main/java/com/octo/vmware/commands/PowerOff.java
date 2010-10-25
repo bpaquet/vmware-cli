@@ -4,6 +4,7 @@ import vim2.ManagedObjectReference;
 
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;
+import com.octo.vmware.entities.VmLocation;
 import com.octo.vmware.services.TaskInfoService;
 import com.octo.vmware.services.VmsListService;
 import com.octo.vmware.utils.VimServiceUtil;
@@ -11,22 +12,27 @@ import com.octo.vmware.utils.VimServiceUtil;
 public class PowerOff implements ICommand {
 
 	public void execute(String[] args) throws Exception {
-		if (args.length != 2) {
+		if (args.length != 1) {
 			throw new SyntaxError();
 		}
-		VimServiceUtil vimServiceUtil = new VimServiceUtil(args[0]);
-		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, args[1]);
-		System.out.println("Power off vm " + vmInfo.getName() + " on host " + args[0]);
+		VmLocation vmLocation = new VmLocation(args[0]);
+		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
+		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
+		System.out.println("Power off virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		ManagedObjectReference task = vimServiceUtil.getService().powerOffVMTask(vmInfo.getManagedObjectReference());
 		System.out.println("Result : " + (TaskInfoService.waitForEnd(vimServiceUtil, task) ? "OK" : "Error"));
 	}
 	
 	public String getCommandHelp() {
-		return "power_off esx_server_name vm_name : power off a vm on an esx server";
+		return "power_off esx_name:vm_name          : power off a virtual machine on an esx server";
 	}
 
 	public String getCommandName() {
 		return "power_off";
+	}
+
+	public Target getTarget() {
+		return Target.ESX;
 	}
 
 }

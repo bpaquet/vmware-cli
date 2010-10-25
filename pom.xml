@@ -75,6 +75,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.sonatype.jline</groupId>
+			<artifactId>jline</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.8.3</version>
@@ -90,7 +95,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

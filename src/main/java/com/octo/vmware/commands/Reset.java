@@ -4,6 +4,7 @@ import vim2.ManagedObjectReference;
 
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;
+import com.octo.vmware.entities.VmLocation;
 import com.octo.vmware.services.TaskInfoService;
 import com.octo.vmware.services.VmsListService;
 import com.octo.vmware.utils.VimServiceUtil;
@@ -11,23 +12,27 @@ import com.octo.vmware.utils.VimServiceUtil;
 public class Reset implements ICommand {
 
 	public void execute(String[] args) throws Exception {
-		if (args.length != 2) {
+		if (args.length != 1) {
 			throw new SyntaxError();
 		}
-		VimServiceUtil vimServiceUtil = new VimServiceUtil(args[0]);
-		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, args[1]);
-		System.out.println("Reset vm " + vmInfo.getName() + " on host " + args[0]);
+		VmLocation vmLocation = new VmLocation(args[0]);
+		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
+		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
+		System.out.println("Reset virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		ManagedObjectReference task = vimServiceUtil.getService().resetVMTask(vmInfo.getManagedObjectReference());
 		System.out.println("Result : " + (TaskInfoService.waitForEnd(vimServiceUtil, task) ? "OK" : "Error"));
 	}
 	
 	public String getCommandHelp() {
-		return "reset esx_server_name vm_name : reset a vm on an esx server";
+		return "reset esx_name:vm_name              : reset a virutal machine on an esx server";
 	}
 
 	public String getCommandName() {
 		return "reset";
 	}
 
+	public Target getTarget() {
+		return Target.ESX;
+	}
 	
 }

@@ -1,19 +1,31 @@
 package com.octo.vmware.utils;
 
-import com.octo.vmware.entities.EsxServer;
-import com.octo.vmware.services.Configuration;
+import java.util.HashMap;
+import java.util.Map;
 
 import vim2.ManagedObjectReference;
 import vim2.ServiceContent;
 import vim2service.VimPortType;
 import vim2service.VimService;
 
+import com.octo.vmware.entities.EsxServer;
+import com.octo.vmware.services.Configuration;
+
 public class VimServiceUtil {
 
+	private static Map<String, VimServiceUtil> map = new HashMap<String, VimServiceUtil>();
+	
+	public static VimServiceUtil get(String esxName) throws Exception {
+		if (!map.containsKey(esxName)) {
+			map.put(esxName, new VimServiceUtil(esxName));
+		}
+		return map.get(esxName);
+	}
+	
 	private VimPortType service;
 	private ServiceContent serviceContent;
 
-	public VimServiceUtil(String esxName) throws Exception {
+	private VimServiceUtil(String esxName) throws Exception {
 		EsxServer esx = Configuration.getCurrent().getEsxServer(esxName);
 		initializeService(esx.getUrl(), esx.getUsername(), esx.getPassword());
 	}
