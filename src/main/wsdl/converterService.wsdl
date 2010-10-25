@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Copyright 2005-2010 VMware, Inc.  All rights reserved.
+-->
+<definitions targetNamespace="urn:converterService"
+   xmlns="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:interface="urn:converter"
+>
+   <import location="converter.wsdl" namespace="urn:converter" />
+   <service name="ConverterService">
+      <port binding="interface:ConverterBinding" name="ConverterPort">
+         <soap:address location="https://localhost/converter/sdk" />
+      </port>
+   </service>
+</definitions>

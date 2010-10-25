@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Copyright 2005-2010 VMware, Inc.  All rights reserved.
+-->
+<schema
+   targetNamespace="urn:converter"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:converter="urn:converter"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   xmlns:vim25="urn:vim25"
+   elementFormDefault="qualified"
+>
+   <import namespace="urn:vim25" schemaLocation="vim-types.xsd" />
+   <import namespace="urn:vim25" schemaLocation="query-types.xsd" />
+   <import namespace="urn:vim25" schemaLocation="core-types.xsd" />
+   <include schemaLocation="converter-types.xsd" />
+   <complexType name="ConverterGenerateTaskLogBundleRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGenerateLogBundleRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterRetrieveTaskLogBundleRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="key" type="xsd:string" />
+         <element name="offset" type="xsd:long" />
+         <element name="maxPageSize" type="xsd:long" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterRetrieveTaskLogBundleUrlRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="key" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterDeleteTaskLogBundleRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="key" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterSetCollectorPageSizeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="maxCount" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterRewindCollectorRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterResetCollectorRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterDestroyCollectorRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterValidateAgentAvailabilityRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterQueryRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterQueryComputerInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterQueryHyperVInventoryRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterQueryOsInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="bootLoaderEntry" type="converter:ConverterBootConfigInfoBootLoaderEntrySpec" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterValidateParamsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="bootLoaderEntry" type="converter:ConverterBootConfigInfoBootLoaderEntrySpec" minOccurs="0" />
+         <element name="conversionParams" type="converter:ConverterConversionParams" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterValidateTargetStorageParamsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="sourceHardwareInfo" type="converter:ConverterComputerHardwareInfo" />
+         <element name="conversionParams" type="converter:ConverterConversionParams" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterValidateTargetAndGetDefaultsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="bootLoaderEntry" type="converter:ConverterBootConfigInfoBootLoaderEntrySpec" minOccurs="0" />
+         <element name="target" type="converter:ConverterTargetVmSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetVMReconfigurationDefaultsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="bootLoaderEntry" type="converter:ConverterBootConfigInfoBootLoaderEntrySpec" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetTargetStorageInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterConversionParams" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterQueryOvfInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetSupportedConversionSourcesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetSupportedReconfigurationSourcesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetSupportedTargetsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="bootLoaderEntry" type="converter:ConverterBootConfigInfoBootLoaderEntrySpec" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetSupportedConfigOptionsForManagedRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="targets" type="converter:ConverterTargetVmSpecManagedVmLocation" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterQueryBootableSnapshotsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="target" type="converter:ConverterComputerSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterRetrieveServiceContentRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterLoginRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="userName" type="xsd:string" />
+         <element name="password" type="xsd:string" />
+         <element name="locale" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterLoginExtensionRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="userName" type="xsd:string" />
+         <element name="password" type="xsd:string" />
+         <element name="locale" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterLoginSessionRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="userName" type="xsd:string" />
+         <element name="sessionId" type="xsd:string" />
+         <element name="locale" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterImpersonateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="locale" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterLogoutRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterTerminateSessionRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="sessionId" type="xsd:string" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterSetLocaleRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="locale" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentImpersonateUserRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="userName" type="xsd:string" />
+         <element name="token" type="xsd:long" />
+         <element name="locale" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentLoginWithCertificateRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="locale" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentRegisterRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentUnregisterRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentQueryRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentCloneRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="target" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterParamsAgentCloningParams" />
+         <element name="envInfo" type="converter:ConverterConversionRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentDeleteBitmapRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="prevBitmapIds" type="xsd:string" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentReconfigRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="target" type="converter:ConverterComputerSpec" />
+         <element name="reconfigParams" type="converter:ConverterReconfigParams" />
+         <element name="cloningParams" type="converter:ConverterParamsAgentCloningParams" minOccurs="0" />
+         <element name="envInfo" type="converter:ConverterConversionRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentCustomizeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="target" type="converter:ConverterComputerSpec" />
+         <element name="customizationParams" type="converter:ConverterParamsAgentCustomizationParams" />
+         <element name="cloningParams" type="converter:ConverterParamsAgentCloningParams" minOccurs="0" />
+         <element name="envInfo" type="converter:ConverterConversionRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentValidateTargetRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="target" type="converter:ConverterTargetVmSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentConvertRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterConversionParams" />
+         <element name="envInfo" type="converter:ConverterConversionRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentEstimateTimeToCompleteRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterConversionParams" />
+         <element name="envInfo" type="converter:ConverterConversionRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterAgentPassDiskTicketsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="requestId" type="xsd:string" />
+         <element name="ticketInfos" type="converter:ConverterDiskTicketDispatcherDiskTicketInfo" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterHelperConvertRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterAgentHelperConverterHelperParams" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterHelperRetrieveServiceContentRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterHelperLoginRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterHelperLogoutRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="AgentInternalDisposeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="AgentInternalMakeStickyRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterReadNextEventsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="maxCount" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterReadPreviousEventsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="maxCount" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterCreateCollectorForEventsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="filter" type="converter:ConverterEventFilterSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterQueryEventsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="filter" type="converter:ConverterEventFilterSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterInstallAgentRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="hostname" type="xsd:string" />
+         <element name="port" type="xsd:int" minOccurs="0" />
+         <element name="username" type="xsd:string" />
+         <element name="password" type="xsd:string" />
+         <element name="postponeReboot" type="xsd:boolean" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterUninstallAgentRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="hostname" type="xsd:string" />
+         <element name="username" type="xsd:string" />
+         <element name="password" type="xsd:string" />
+         <element name="postponeReboot" type="xsd:boolean" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterRebootMachineRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="hostname" type="xsd:string" />
+         <element name="username" type="xsd:string" />
+         <element name="password" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterCheckLicenseFeatureRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="featureKey" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterConfigureLicenseSourceRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="licenseSource" type="converter:ConverterLicenseSource" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerManagedEntityRenameRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="newName" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionJobUpdateConversionParamsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="newParams" type="converter:ConverterServerConversionConversionParamsUpdateSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerCreateJobRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="converter:ConverterServerConversionConversionJobSpec" />
+         <element name="extraInfo" type="xsd:anyType" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerDestroyJobRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="job" type="vim25:ManagedObjectReference" />
+         <element name="activeTaskHandling" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerGetJobInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="conversionJob" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerGetJobSpecRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="conversionJob" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerGetJobExtraInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="conversionJob" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerGetJobInfoFromScheduledTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerGetJobSpecFromScheduledTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerConversionManagerGetJobExtraInfoFromScheduledTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerJobResumeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerJobSuspendRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="activeTaskHandling" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerJobUpdateSpecRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="updateParams" type="converter:ConverterServerJobJobJobUpdateSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerJobUpdateExtaInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="replacementInfo" type="xsd:anyType" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionFolderMoveIntoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="entities" type="vim25:ManagedObjectReference" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionFolderUpdateProtectionParamsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="newParams" type="converter:ConverterServerProtectionProtectionParamsUpdateSpec" />
+         <element name="recursive" type="xsd:boolean" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionFolderUpdateDescriptionRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="description" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionFolderRebootAndResumeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="recursive" type="xsd:boolean" />
+         <element name="runTime" type="xsd:dateTime" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionJobScheduleSingleRunRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="runSpec" type="converter:ConverterServerProtectionProtectionJobRunSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionJobUpdateProtectionParamsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="newParams" type="converter:ConverterServerProtectionProtectionParamsUpdateSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionJobUpdateSecondaryReplicationRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="newReplicationMechanism" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionJobUpdateConversionParamsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="newParams" type="converter:ConverterServerProtectionConversionParamsUpdateSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionJobRebootAndResumeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="timeToRun" type="xsd:dateTime" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="StopRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="activeTaskHandling" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerCreateFolderRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="converter:ConverterServerProtectionProtectionFolderSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerCreateJobRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="jobSpec" type="converter:ConverterServerProtectionProtectionJobSpec" />
+         <element name="extraInfo" type="xsd:anyType" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerDestroyFolderRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="folder" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerDestroyJobRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="job" type="vim25:ManagedObjectReference" />
+         <element name="activeTaskHandling" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerEnterMaintenanceModeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerExitMaintenanceModeRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerGetJobInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="job" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerGetJobSpecRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="job" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerGetJobExtraInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="job" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerIsProtectedRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="ipAddress" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerQuerySecondaryReplicationConfigurationRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterServerProtectionManagerQuerySecondaryReplicationProtectionStatisticsRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterCreateScheduledTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="obj" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="converter:ConverterScheduledTaskSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetScheduledTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterReconfigureScheduledTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="vim25:ScheduledTaskSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterCancelTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterReadNextTasksRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="maxCount" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterReadPreviousTasksRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="maxCount" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterSetMaxTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="maxTask" type="xsd:int" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterCreateCollectorForTasksRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="filter" type="converter:ConverterTaskFilterSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterCreateTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="taskSpec" type="converter:ConverterTaskSpec" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetTaskInfoRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetTaskSpecRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterDestroyTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterEstimateTimeToCompleteRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="taskSpec" type="converter:ConverterTaskSpec" />
+         <element name="envInfo" type="converter:ConverterRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterGetChildTaskRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="task" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterTargetVMManagerCreateVMRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterConversionParams" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterWorkerConvertRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" minOccurs="0" />
+         <element name="target" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterConversionParams" />
+         <element name="sourceModificationSpec" type="converter:ConverterServerConversionP2VSourceModificationSpec" minOccurs="0" />
+         <element name="storageMapping" type="converter:ConverterParamsStorageMapping" minOccurs="0" />
+         <element name="envInfo" type="converter:ConverterConversionRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterWorkerDeleteBitmapRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" />
+         <element name="prevBitmapIds" type="xsd:string" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="ConverterWorkerEstimateTimeToCompleteRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="source" type="converter:ConverterComputerSpec" minOccurs="0" />
+         <element name="target" type="converter:ConverterComputerSpec" />
+         <element name="params" type="converter:ConverterConversionParams" />
+         <element name="envInfo" type="converter:ConverterConversionRuntimeEnvironmentInfo" />
+      </sequence>
+   </complexType>
+</schema>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Copyright 2005-2010 VMware, Inc.  All rights reserved.
+-->
+<schema
+   targetNamespace="urn:vim25"
+   xmlns="http://www.w3.org/2001/XMLSchema"
+   xmlns:vim25="urn:vim25"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified"
+>
+   <include schemaLocation="core-types.xsd" />
+   <include schemaLocation="query-types.xsd" />
+   <complexType name="DestroyPropertyFilterRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="CreateFilterRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="spec" type="vim25:PropertyFilterSpec" />
+         <element name="partialUpdates" type="xsd:boolean" />
+      </sequence>
+   </complexType>
+   <complexType name="RetrievePropertiesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="specSet" type="vim25:PropertyFilterSpec" maxOccurs="unbounded" />
+      </sequence>
+   </complexType>
+   <complexType name="CheckForUpdatesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="version" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="WaitForUpdatesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="version" type="xsd:string" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="CancelWaitForUpdatesRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+</schema>
