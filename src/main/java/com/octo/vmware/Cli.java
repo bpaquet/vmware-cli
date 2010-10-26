@@ -9,6 +9,7 @@ import jline.console.ConsoleReader;
 
 import com.octo.vmware.ICommand.SyntaxError;
 import com.octo.vmware.ICommand.Target;
+import com.octo.vmware.commands.ListResourcePools;
 import com.octo.vmware.commands.ListTasks;
 import com.octo.vmware.commands.ListVms;
 import com.octo.vmware.commands.MountVmwareTools;
@@ -25,7 +26,7 @@ import com.octo.vmware.utils.SoapUtils;
 public class Cli {
 
 	private static final ICommand[] COMMANDS = { new ListVms(), new Show(), new PowerOff(), new PowerOn(),
-			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new ListTasks() };
+			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new ListResourcePools(), new ListTasks() };
 
 	public static void main(String[] args) throws Exception {
 		SoapUtils.initSSL();
