@@ -20,11 +20,15 @@ public class RebootGuest implements ICommand {
 		System.out.println("Done");
 	}
 	
-	public String getCommandHelp() {
-		return "reboot_guest esx_name:vm_name                                  : try to reboot a virtual machine on an esx server";
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "try to reboot a virtual machine on an esx server";
+	}
+
+	public String getCommand() {
 		return "reboot_guest";
 	}
 

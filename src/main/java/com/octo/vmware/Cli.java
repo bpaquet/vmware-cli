@@ -63,13 +63,13 @@ public class Cli {
 					String before = arg0.substring(0, arg1);
 					if (before.length() == 0) {
 						for(ICommand command : COMMANDS) {
-							arg2.add(command.getCommandName());
+							arg2.add(command.getCommand() + " ");
 						}
 					}
 					else {
 						for(ICommand command : COMMANDS) {
-							if (command.getCommandName().startsWith(before)) {
-								arg2.add(command.getCommandName().substring(before.length() - 1));
+							if (command.getCommand().startsWith(before)) {
+								arg2.add(command.getCommand().substring(before.length() - 1) + " ");
 							}
 						}
 					}
@@ -94,18 +94,22 @@ public class Cli {
 		}
 	}
 
+	private String format(ICommand command) {
+		return String.format("- %-65s : %s", command.getCommand() + " " + command.getSyntax(), command.getHelp());
+	}
+	
 	private boolean executeComand(String run, String[] args) throws Exception {
 		for (ICommand command : COMMANDS) {
 			if ("help".equals(run)) {
 				help();
 				return true;
 			} else {
-				if (command.getCommandName().equals(run)) {
+				if (command.getCommand().equals(run)) {
 					try {
 						command.execute(args);
 						return true;
 					} catch (SyntaxError e) {
-						System.err.println("Wrong command syntax :\n" + command.getCommandHelp());
+						System.err.println("Wrong command syntax :\n" + format(command));
 						return true;
 					}
 				}
@@ -114,9 +118,32 @@ public class Cli {
 		return false;
 	}
 
+	class Help implements ICommand {
+
+		public void execute(String[] args) throws Exception {
+		}
+
+		public String getCommand() {
+			return "help";
+		}
+
+		public String getHelp() {
+			return "this help";
+		}
+
+		public String getSyntax() {
+			return "";
+		}
+
+		public Target getTarget() {
+			return null;
+		}
+		
+	}
+	
 	private void help() {
 		System.out.println("Available commands : ");
-		System.out.println("- help                                                           : this help");
+		System.out.println(format(new Help()));
 		System.out.println("Esx commands : ");
 		help(Target.ESX);
 		System.out.println("Converter commands : ");
@@ -126,7 +153,7 @@ public class Cli {
 	private void help(Target target) {
 		for (ICommand command : COMMANDS) {
 			if (command.getTarget() == target) {
-				System.out.println("- " + command.getCommandHelp());
+				System.out.println(format(command));
 			}
 		}
 	}

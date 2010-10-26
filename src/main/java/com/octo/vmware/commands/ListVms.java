@@ -12,14 +12,6 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class ListVms implements ICommand {
 
-	public String getCommandHelp() {
-		return "list esx_name                                                  : list virtual machiness of an esx server";
-	}
-
-	public String getCommandName() {
-		return "list";
-	}
-
 	public void execute(String [] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
@@ -45,6 +37,18 @@ public class ListVms implements ICommand {
 		else {
 			return VirtualMachinePowerState.POWERED_ON.toString().equals(vmInfo.getStatus()) ? vmInfo.getGuestToolsStatus() : "";
 		}
+	}
+
+	public String getSyntax() {
+		return "esx_name"; 
+	}
+
+	public String getHelp() {
+		return "list virtual machiness of an esx server";
+	}
+
+	public String getCommand() {
+		return "list";
 	}
 	
 	public Target getTarget() {

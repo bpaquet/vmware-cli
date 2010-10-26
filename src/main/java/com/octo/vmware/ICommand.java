@@ -12,9 +12,11 @@ public interface ICommand {
 	
 	Target getTarget();
 	
-	String getCommandName();
+	String getCommand();
 
-	String getCommandHelp();
+	String getSyntax();
+
+	String getHelp();
 
 	void execute(String [] args) throws Exception;
 

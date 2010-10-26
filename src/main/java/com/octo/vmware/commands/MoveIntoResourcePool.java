@@ -25,11 +25,15 @@ public class MoveIntoResourcePool implements ICommand {
 		System.out.println("Done");
 	}
 
-	public String getCommandHelp() {
-		return "move_into_resource_pool esx_name:vm_name resource_pool_name    : move virtual machine into resource pool";
+	public String getSyntax() {
+		return "esx_name:vm_name resource_pool_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "move virtual machine into resource pool";
+	}
+
+	public String getCommand() {
 		return "move_into_resource_pool";
 	}
 

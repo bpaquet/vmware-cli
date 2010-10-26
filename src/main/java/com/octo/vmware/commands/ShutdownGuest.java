@@ -19,12 +19,16 @@ public class ShutdownGuest implements ICommand {
 		vimServiceUtil.getService().shutdownGuest(vmInfo.getManagedObjectReference());
 		System.out.println("Done");
 	}
-	
-	public String getCommandHelp() {
-		return "shutdown_guest esx_name:vm_name                                : try to shutdown a virtual machine on an esx server";
+
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "try to shutdown a virtual machine on an esx server";
+	}
+
+	public String getCommand() {
 		return "shutdown_guest";
 	}
 

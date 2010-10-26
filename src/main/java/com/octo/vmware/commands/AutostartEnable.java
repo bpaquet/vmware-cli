@@ -56,11 +56,15 @@ public class AutostartEnable implements ICommand {
 		System.out.println("Done");
 	}
 
-	public String getCommandHelp() {
-		return "autostart_enable esx_name:vm_name                              : configure virtual machine for auto start";
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "configure virtual machine for auto start";
+	}
+
+	public String getCommand() {
 		return "autostart_enable";
 	}
 

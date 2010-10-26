@@ -39,11 +39,15 @@ public class AutostartInfo implements ICommand {
 		}
 	}
 
-	public String getCommandHelp() {
-		return "autostart_show esx_name                                        : show auto start config for an esx server";
+	public String getSyntax() {
+		return "esx_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "show auto start config for an esx server";
+	}
+
+	public String getCommand() {
 		return "autostart_show";
 	}
 

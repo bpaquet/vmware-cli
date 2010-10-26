@@ -36,11 +36,15 @@ public class Show implements ICommand {
 		System.out.println();
 	}
 
-	public String getCommandHelp() {
-		return "show esx_name:vm_name                                          : show details about a virtual machine";
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "show details about a virtual machine";
+	}
+
+	public String getCommand() {
 		return "show";
 	}
 

@@ -23,11 +23,15 @@ public class PowerOn implements ICommand {
 		System.out.println("Result : " + (PropertiesService.waitForTaskEnd(vimServiceUtil, task) ? "OK" : "Error"));
 	}
 	
-	public String getCommandHelp() {
-		return "power_on esx_name:vm_name                                      : power on a virtual machine on an esx server";
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
+	}
+	
+	public String getHelp() {
+		return "power on a virtual machine on an esx server";
 	}
 
-	public String getCommandName() {
+	public String getCommand() {
 		return "power_on";
 	}
 

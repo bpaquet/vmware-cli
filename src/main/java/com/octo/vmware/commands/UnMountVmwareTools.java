@@ -20,11 +20,15 @@ public class UnMountVmwareTools implements ICommand {
 		System.out.println("Done");
 	}
 
-	public String getCommandHelp() {
-		return "unmount_tools esx_name:vm_name                                 : mounts the vmware tools cd into virtual machine";
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "mounts the vmware tools cd into virtual machine";
+	}
+
+	public String getCommand() {
 		return "unmount_tools";
 	}
 

@@ -46,11 +46,15 @@ public class AutostartDisable implements ICommand {
 		System.out.println("Done");
 	}
 
-	public String getCommandHelp() {
-		return "autostart_disable esx_name:vm_name                             : configure virtual machine for auto start";
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
+	}
+	
+	public String getHelp() {
+		return "configure virtual machine for auto start";
 	}
 
-	public String getCommandName() {
+	public String getCommand() {
 		return "autostart_disable";
 	}
 

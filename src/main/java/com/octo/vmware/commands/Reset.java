@@ -22,12 +22,16 @@ public class Reset implements ICommand {
 		ManagedObjectReference task = vimServiceUtil.getService().resetVMTask(vmInfo.getManagedObjectReference());
 		System.out.println("Result : " + (PropertiesService.waitForTaskEnd(vimServiceUtil, task) ? "OK" : "Error"));
 	}
-	
-	public String getCommandHelp() {
-		return "reset esx_name:vm_name                                         : reset a virutal machine on an esx server";
+
+	public String getSyntax() {
+		return "esx_name:vm_name"; 
 	}
 
-	public String getCommandName() {
+	public String getHelp() {
+		return "reset a virutal machine on an esx server";
+	}
+
+	public String getCommand() {
 		return "reset";
 	}
 
