@@ -1,5 +1,6 @@
 package com.octo.vmware.services;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ResourcePoolService {
 	
 	public static ResourcePool findResourcePoolByName(VimServiceUtil vimServiceUtil, String name) throws Exception {
 		for(ResourcePool resourcePool : getResourcePoolList(vimServiceUtil)) {
-			if (name.equals(resourcePool.getName())) {
+			if (name.equals(URLDecoder.decode(resourcePool.getName(), "UTF-8"))) {
 				return resourcePool;
 			}
 		}
@@ -67,7 +68,7 @@ public class ResourcePoolService {
 			resourcePool.setManagedObjectReference(objectContent.getObj());
 			for(DynamicProperty prop : objectContent.getPropSet()) {
 				if ("name".equals(prop.getName())) {
-					resourcePool.setName((String) prop.getVal());
+					resourcePool.setName(URLDecoder.decode((String) prop.getVal(), "UTF-8"));
 				}
 			}
 			list.add(resourcePool);
