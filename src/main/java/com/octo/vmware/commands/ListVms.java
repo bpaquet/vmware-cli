@@ -30,10 +30,10 @@ public class ListVms implements ICommand {
 
 		System.out.println("Found " + vmsList.size() + " VM(s) on " + esxName);
 		if (vmsList.size() > 0) {
-			System.out.println(String.format("%-30s %11s %-9s %-40s", "VM Name", "Status", "CPU/RAM", "Guest"));
+			System.out.println(String.format("%-20s %-30s %11s %-9s %-40s", "Resource Pool", "VM Name", "Status", "CPU/RAM", "Guest"));
 			System.out.println("--------------------------------------------------------------------------------------");
 			for (VmInfo info : vmsList) {
-				System.out.println(String.format("%-30s %11s %2d %6d %s", info.getName(), info.getStatus(), info.getCpu(), info.getRam(), formatGuest(info)));
+				System.out.println(String.format("%-20s %-30s %11s %2d %6d %s", info.getResourcePool().getName(), info.getName(), info.getStatus(), info.getCpu(), info.getRam(), formatGuest(info)));
 			}
 		}
 	}

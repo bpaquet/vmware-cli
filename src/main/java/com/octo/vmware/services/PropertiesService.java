@@ -14,11 +14,11 @@ import vim2.TaskInfoState;
 
 import com.octo.vmware.utils.VimServiceUtil;
 
-public class TaskInfoService {
+public class PropertiesService {
 
-	public static boolean waitForEnd(VimServiceUtil vimServiceUtil, ManagedObjectReference task) throws Exception {
+	public static boolean waitForTaskEnd(VimServiceUtil vimServiceUtil, ManagedObjectReference task) throws Exception {
 		while(true) {
-			TaskInfo taskInfo = getTaskInfo(vimServiceUtil, task);
+			TaskInfo taskInfo = getProperties(vimServiceUtil, "info", task);
 			if (taskInfo.getProgress() == 100) {
 				return taskInfo.getState() == TaskInfoState.SUCCESS;
 			}
@@ -26,15 +26,15 @@ public class TaskInfoService {
 		}
 	}
 	
-	public static TaskInfo getTaskInfo(VimServiceUtil vimServiceUtil, ManagedObjectReference task) throws Exception {
+	@SuppressWarnings("unchecked")
+	public static <T> T getProperties(VimServiceUtil vimServiceUtil, String propName, ManagedObjectReference managementObjectReference) throws Exception {
 		ObjectSpec objectSpec = new ObjectSpec();
-		objectSpec.setObj(task);
-		// Specifies objects to retrieve are VirtualMachines
+		objectSpec.setObj(managementObjectReference);
 		PropertySpec propertySpec = new PropertySpec();
-		propertySpec.setAll(true);
-		propertySpec.setType(task.getType());
+		propertySpec.getPathSet().add(propName);
+		//propertySpec.setAll(true);
+		propertySpec.setType(managementObjectReference.getType());
 		
-		// Finally retrieve VirtualMachines in datacenter
 		PropertyFilterSpec propertyFilterSpec = new PropertyFilterSpec();
 		propertyFilterSpec.getObjectSet().add(objectSpec);
 		propertyFilterSpec.getPropSet().add(propertySpec);
@@ -44,11 +44,12 @@ public class TaskInfoService {
 		
 		for(ObjectContent objectContent : objs) {
 			for(DynamicProperty prop : objectContent.getPropSet()) {
-				if ("info".equals(prop.getName())) {
-					return (TaskInfo) prop.getVal();
+				if (propName.equals(prop.getName())) {
+					return (T) prop.getVal();
 				}
 			}
 		}
-		throw new RuntimeException("Unable to find task " + task.getValue());
+		
+		throw new RuntimeException("Unable to find object " + managementObjectReference.getValue());
 	}
 }

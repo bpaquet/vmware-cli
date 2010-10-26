@@ -5,7 +5,7 @@ import vim2.ManagedObjectReference;
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.entities.VmLocation;
-import com.octo.vmware.services.TaskInfoService;
+import com.octo.vmware.services.PropertiesService;
 import com.octo.vmware.services.VmsListService;
 import com.octo.vmware.utils.VimServiceUtil;
 
@@ -20,7 +20,7 @@ public class Reset implements ICommand {
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
 		System.out.println("Reset virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		ManagedObjectReference task = vimServiceUtil.getService().resetVMTask(vmInfo.getManagedObjectReference());
-		System.out.println("Result : " + (TaskInfoService.waitForEnd(vimServiceUtil, task) ? "OK" : "Error"));
+		System.out.println("Result : " + (PropertiesService.waitForTaskEnd(vimServiceUtil, task) ? "OK" : "Error"));
 	}
 	
 	public String getCommandHelp() {

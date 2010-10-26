@@ -78,7 +78,7 @@ public class Cli {
 						return true;
 					}
 					catch(SyntaxError e) {
-						System.err.println("Wrong command syntax : " + command.getCommandHelp());
+						System.err.println("Wrong command syntax :\n" + command.getCommandHelp());
 						return false;
 					}
 				}

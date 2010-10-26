@@ -6,6 +6,7 @@ import java.util.List;
 
 import vim2.DynamicProperty;
 import vim2.GuestInfo;
+import vim2.ManagedObjectReference;
 import vim2.ObjectContent;
 import vim2.ObjectSpec;
 import vim2.PropertyFilterSpec;
@@ -19,6 +20,7 @@ import vim2.VirtualMachineConfigInfo;
 import vim2.VirtualMachineConfigInfoDatastoreUrlPair;
 import vim2.VirtualMachineRuntimeInfo;
 
+import com.octo.vmware.entities.ResourcePool;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.utils.VimServiceUtil;
 
@@ -63,6 +65,7 @@ public class VmsListService {
 		propertySpec.getPathSet().add("config");
 		propertySpec.getPathSet().add("guest");
 		propertySpec.getPathSet().add("runtime");
+		propertySpec.getPathSet().add("resourcePool");
 		propertySpec.setAll(false);
 		propertySpec.setType("VirtualMachine");
 
@@ -74,8 +77,6 @@ public class VmsListService {
 		List<ObjectContent> vms = vimServiceUtil.getService().retrieveProperties(
 				vimServiceUtil.getServiceContent().getPropertyCollector(), propertyFilterSpecsList);
 
-		// TODO: filter by runtime.powerstate ?
-
 		// Build return list
 		List<VmInfo> list = new ArrayList<VmInfo>();
 		for (ObjectContent obj : vms) {
@@ -84,6 +85,11 @@ public class VmsListService {
 			for (DynamicProperty prop : obj.getPropSet()) {
 				if (prop.getName().equals("name")) {
 					vmInfo.setName(prop.getVal().toString());
+				}
+				else if (prop.getName().equals("resourcePool")) {
+					ManagedObjectReference managedObjectReference = (ManagedObjectReference) prop.getVal();
+					ResourcePool resourcePool = ResourcePoolService.searchPoolName(vimServiceUtil, managedObjectReference);
+					vmInfo.setResourcePool(resourcePool);
 				}
 				else if (prop.getName().equals("runtime")) {
 					VirtualMachineRuntimeInfo runtimeInfo = (VirtualMachineRuntimeInfo) prop.getVal();

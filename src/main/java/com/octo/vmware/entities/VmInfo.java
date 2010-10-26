@@ -24,6 +24,8 @@ public class VmInfo {
 	
 	private ManagedObjectReference managedObjectReference;
 	
+	private ResourcePool resourcePool;
+	
 	public String getName() {
 		return name;
 	}
@@ -119,5 +121,13 @@ public class VmInfo {
 	public void setManagedObjectReference(ManagedObjectReference managedObjectReference) {
 		this.managedObjectReference = managedObjectReference;
 	}
-	
+
+	public ResourcePool getResourcePool() {
+		return resourcePool;
+	}
+
+	public void setResourcePool(ResourcePool resourcePool) {
+		this.resourcePool = resourcePool;
+	}
+		
 }
