@@ -35,31 +35,32 @@ public class VmsListService {
 		throw new RuntimeException("Vm not found : " + vmName);
 	}
 	
-	public static List<VmInfo> getVmsList(VimServiceUtil vimServiceUtil) throws Exception {
-		// Build search path
-		// Traversal to get to the vmFolder from DataCenter
- 		TraversalSpec dataCenterToVMFolder = new TraversalSpec();
-		dataCenterToVMFolder.setType("Datacenter");
-		dataCenterToVMFolder.setPath("vmFolder");
-		dataCenterToVMFolder.setSkip(false);
-		SelectionSpec ss = new SelectionSpec();
-		ss.setName("VisitFolders");
-		dataCenterToVMFolder.getSelectSet().add(ss);
-		dataCenterToVMFolder.setName("DataCenterToVMFolder");
-		// TraversalSpec to get to the DataCenter from rootFolder
+	public static TraversalSpec makeTraversalSpec(String type, String path, String name, boolean skip, String [] selectionSpecs, TraversalSpec [] traversalSpecs) {
 		TraversalSpec traversalSpec = new TraversalSpec();
-		traversalSpec.setType("Folder");
-		traversalSpec.setPath("childEntity");
-		traversalSpec.setSkip(false);
-		traversalSpec.getSelectSet().add(dataCenterToVMFolder);
-		traversalSpec.setName("VisitFolders");
-
-		// Set root folder
+		traversalSpec.setName(name);
+		traversalSpec.setType(type);
+		traversalSpec.setPath(path);
+		traversalSpec.setSkip(skip);
+		for(String s : selectionSpecs) {
+			SelectionSpec selectionSpec = new SelectionSpec();
+			selectionSpec.setName(s);
+			traversalSpec.getSelectSet().add(selectionSpec);
+		}
+		for(TraversalSpec t : traversalSpecs) {
+			traversalSpec.getSelectSet().add(t);
+		}
+		return traversalSpec;
+	}
+	
+	public static List<VmInfo> getVmsList(VimServiceUtil vimServiceUtil) throws Exception {
+		TraversalSpec dataCenterToVMFolder = makeTraversalSpec("Datacenter", "vmFolder", "DataCenterToVMFolder", false, new String[]{"VisitFolders"}, new TraversalSpec[]{});
+		TraversalSpec traversalSpec = makeTraversalSpec("Folder", "childEntity", "VisitFolders", false, new String[]{}, new TraversalSpec[]{dataCenterToVMFolder});
+		
 		ObjectSpec objectSpec = new ObjectSpec();
 		objectSpec.setObj(vimServiceUtil.getServiceContent().getRootFolder());
 		objectSpec.setSkip(true);
 		objectSpec.getSelectSet().add(traversalSpec);
-		// Specifies objects to retrieve are VirtualMachines
+		
 		PropertySpec propertySpec = new PropertySpec();
 		propertySpec.getPathSet().add("name");
 		propertySpec.getPathSet().add("config");

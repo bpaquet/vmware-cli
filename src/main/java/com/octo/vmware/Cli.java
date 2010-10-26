@@ -70,6 +70,7 @@ public class Cli {
 		for (ICommand command : COMMANDS) {
 			if ("help".equals(run)) {
 				help();
+				return true;
 			}
 			else {
 				if (command.getCommandName().equals(run)) {
