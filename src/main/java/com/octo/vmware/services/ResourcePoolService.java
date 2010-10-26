@@ -54,7 +54,6 @@ public class ResourcePoolService {
 		propertySpec.setAll(false);
 		propertySpec.setType("ResourcePool");
 		
-		// Finally retrieve VirtualMachines in datacenter
 		PropertyFilterSpec propertyFilterSpec = new PropertyFilterSpec();
 		propertyFilterSpec.getObjectSet().add(objectSpec);
 		propertyFilterSpec.getPropSet().add(propertySpec);
