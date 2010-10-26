@@ -24,7 +24,7 @@ public class PowerOn implements ICommand {
 	}
 	
 	public String getCommandHelp() {
-		return "power_on esx_name:vm_name           : power on a virtual machine on an esx server";
+		return "power_on esx_name:vm_name                                      : power on a virtual machine on an esx server";
 	}
 
 	public String getCommandName() {

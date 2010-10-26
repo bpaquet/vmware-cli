@@ -37,7 +37,11 @@ Example of available commands :
 * Power on virtual machine on an esx server : `power_on my_server vm_name`
 * Power off virtual machine on an esx server : `power_off my_server vm_name`
 * Get details about a virtual machine on an esx server : `show my_server vm_name`
+* Move a vm into another resource pool : `move_into_resource_pool my_server:vm_name resource_pool_name`
+* Configure autostart of virtual machines : `autostart_show my_server`
 * Get full command list : `help`
+
+You have completion on commands with Tab.
 
 Remark : you can launch all commands without interpreter :
 <code>

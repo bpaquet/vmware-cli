@@ -31,7 +31,7 @@ public class ListTasks implements ICommand {
 	}
 
 	public String getCommandHelp() {
-		return "list_tasks                          : lists all tasks of the converter";
+		return "list_tasks                                                     : lists all tasks of the converter";
 	}
 
 	public String getCommandName() {

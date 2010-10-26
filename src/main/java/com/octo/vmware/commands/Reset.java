@@ -24,7 +24,7 @@ public class Reset implements ICommand {
 	}
 	
 	public String getCommandHelp() {
-		return "reset esx_name:vm_name              : reset a virutal machine on an esx server";
+		return "reset esx_name:vm_name                                         : reset a virutal machine on an esx server";
 	}
 
 	public String getCommandName() {

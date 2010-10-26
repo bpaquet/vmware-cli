@@ -21,7 +21,7 @@ public class MountVmwareTools implements ICommand {
 	}
 
 	public String getCommandHelp() {
-		return "mount_tools esx_name:vm_name        : mounts the vmware tools cd into virtual machine";
+		return "mount_tools esx_name:vm_name                                   : mounts the vmware tools cd into virtual machine";
 	}
 
 	public String getCommandName() {

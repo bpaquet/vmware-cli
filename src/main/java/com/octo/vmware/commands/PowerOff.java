@@ -24,7 +24,7 @@ public class PowerOff implements ICommand {
 	}
 	
 	public String getCommandHelp() {
-		return "power_off esx_name:vm_name          : power off a virtual machine on an esx server";
+		return "power_off esx_name:vm_name                                     : power off a virtual machine on an esx server";
 	}
 
 	public String getCommandName() {

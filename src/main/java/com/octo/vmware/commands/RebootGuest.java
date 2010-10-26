@@ -21,7 +21,7 @@ public class RebootGuest implements ICommand {
 	}
 	
 	public String getCommandHelp() {
-		return "reboot_guest esx_name:vm_name       : try to reboot a virtual machine on an esx server";
+		return "reboot_guest esx_name:vm_name                                  : try to reboot a virtual machine on an esx server";
 	}
 
 	public String getCommandName() {

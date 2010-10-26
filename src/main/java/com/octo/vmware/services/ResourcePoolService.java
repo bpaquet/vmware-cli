@@ -23,7 +23,7 @@ public class ResourcePoolService {
 		String name = PropertiesService.getProperties(vimServiceUtil, "name", managedObjectReference);
 		ResourcePool resourcePool = new ResourcePool();
 		resourcePool.setManagedObjectReference(managedObjectReference);
-		resourcePool.setName(name);
+		resourcePool.setName(URLDecoder.decode(name, "UTF-8"));
 		return resourcePool;
 	}
 	

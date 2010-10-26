@@ -21,7 +21,7 @@ public class ShutdownGuest implements ICommand {
 	}
 	
 	public String getCommandHelp() {
-		return "shutdown_guest esx_name:vm_name     : try to shutdown a virtual machine on an esx server";
+		return "shutdown_guest esx_name:vm_name                                : try to shutdown a virtual machine on an esx server";
 	}
 
 	public String getCommandName() {

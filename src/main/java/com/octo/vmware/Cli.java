@@ -6,9 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import jline.console.ConsoleReader;
+import jline.console.completer.Completer;
 
 import com.octo.vmware.ICommand.SyntaxError;
 import com.octo.vmware.ICommand.Target;
+import com.octo.vmware.commands.AutostartDisable;
+import com.octo.vmware.commands.AutostartEnable;
+import com.octo.vmware.commands.AutostartInfo;
 import com.octo.vmware.commands.ListResourcePools;
 import com.octo.vmware.commands.ListTasks;
 import com.octo.vmware.commands.ListVms;
@@ -28,7 +32,9 @@ import com.octo.vmware.utils.SoapUtils;
 public class Cli {
 
 	private static final ICommand[] COMMANDS = { new ListVms(), new Show(), new PowerOff(), new PowerOn(),
-			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new UnMountVmwareTools(), new MoveIntoResourcePool(), new ListResourcePools(), new ListTasks() };
+			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new UnMountVmwareTools(),
+			new MoveIntoResourcePool(), new ListResourcePools(), new AutostartInfo(), new AutostartEnable(),
+			new AutostartDisable(), new ListTasks() };
 
 	public static void main(String[] args) throws Exception {
 		SoapUtils.initSSL();
@@ -45,23 +51,42 @@ public class Cli {
 				l.add(s);
 			}
 		}
-		String [] args = l.toArray(new String[0]);
+		String[] args = l.toArray(new String[0]);
 		if (args.length != 0) {
 			boolean ok = executeComand(args[0], Arrays.copyOfRange(args, 1, args.length));
 			System.exit(ok ? 0 : 1);
-		}
-		else {
+		} else {
 			ConsoleReader consoleReader = new ConsoleReader();
-			while (true) {
-				String cmd = consoleReader.readLine("VMWare-Cli> ");
-				String [] splittedCommand = CommandSplitter.split(cmd);
-				if (splittedCommand.length != 0) {
-					try {
-						if (!executeComand(splittedCommand[0], Arrays.copyOfRange(splittedCommand, 1, splittedCommand.length))) {
-							help();
+			consoleReader.addCompleter(new Completer() {
+				
+				public int complete(String arg0, int arg1, List<CharSequence> arg2) {
+					String before = arg0.substring(0, arg1);
+					if (before.length() == 0) {
+						for(ICommand command : COMMANDS) {
+							arg2.add(command.getCommandName());
 						}
 					}
-					catch(Exception e) {
+					else {
+						for(ICommand command : COMMANDS) {
+							if (command.getCommandName().startsWith(before)) {
+								arg2.add(command.getCommandName().substring(before.length() - 1));
+							}
+						}
+					}
+					return arg1 - 1;
+				}
+				
+			});
+			while (true) {
+				String cmd = consoleReader.readLine("VMWare-Cli> ");
+				String[] splittedCommand = CommandSplitter.split(cmd);
+				if (splittedCommand.length != 0) {
+					try {
+						if (!executeComand(splittedCommand[0], Arrays.copyOfRange(splittedCommand, 1,
+								splittedCommand.length))) {
+							help();
+						}
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -69,21 +94,19 @@ public class Cli {
 		}
 	}
 
-	private boolean executeComand(String run, String [] args) throws Exception {
+	private boolean executeComand(String run, String[] args) throws Exception {
 		for (ICommand command : COMMANDS) {
 			if ("help".equals(run)) {
 				help();
 				return true;
-			}
-			else {
+			} else {
 				if (command.getCommandName().equals(run)) {
 					try {
 						command.execute(args);
 						return true;
-					}
-					catch(SyntaxError e) {
+					} catch (SyntaxError e) {
 						System.err.println("Wrong command syntax :\n" + command.getCommandHelp());
-						return false;
+						return true;
 					}
 				}
 			}
@@ -93,7 +116,7 @@ public class Cli {
 
 	private void help() {
 		System.out.println("Available commands : ");
-		System.out.println("- help                                : this help");
+		System.out.println("- help                                                           : this help");
 		System.out.println("Esx commands : ");
 		help(Target.ESX);
 		System.out.println("Converter commands : ");

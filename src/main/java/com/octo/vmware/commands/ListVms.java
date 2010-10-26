@@ -13,7 +13,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 public class ListVms implements ICommand {
 
 	public String getCommandHelp() {
-		return "list esx_name                       : list virtual machiness of an esx server";
+		return "list esx_name                                                  : list virtual machiness of an esx server";
 	}
 
 	public String getCommandName() {

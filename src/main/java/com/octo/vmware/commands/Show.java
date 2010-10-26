@@ -37,7 +37,7 @@ public class Show implements ICommand {
 	}
 
 	public String getCommandHelp() {
-		return "show esx_name:vm_name               : show details about a virtual machine";
+		return "show esx_name:vm_name                                          : show details about a virtual machine";
 	}
 
 	public String getCommandName() {
