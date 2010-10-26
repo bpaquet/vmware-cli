@@ -26,6 +26,15 @@ public class ResourcePoolService {
 		return resourcePool;
 	}
 	
+	public static ResourcePool findResourcePoolByName(VimServiceUtil vimServiceUtil, String name) throws Exception {
+		for(ResourcePool resourcePool : getResourcePoolList(vimServiceUtil)) {
+			if (name.equals(resourcePool.getName())) {
+				return resourcePool;
+			}
+		}
+		throw new RuntimeException("Resource pool not found : " + name);
+	}
+	
 	public static List<ResourcePool> getResourcePoolList(VimServiceUtil vimServiceUtil) throws Exception {
 		TraversalSpec rpToRp = TraversalSpecHelper.makeTraversalSpec("ResourcePool", "resourcePool", "rpToRp", false, new String[]{"rpToRp", "rpToVm"}, new TraversalSpec[]{});
 		TraversalSpec crToH = TraversalSpecHelper.makeTraversalSpec("ComputeResource", "host", "crToH", false, new String[]{}, new TraversalSpec[]{});
