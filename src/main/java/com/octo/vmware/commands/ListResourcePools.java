@@ -28,7 +28,7 @@ public class ListResourcePools implements ICommand {
 	}
 
 	public String getCommandHelp() {
-		return "list_resource_pool esx_name        : list resources pool of an esx";
+		return "list_resource_pool esx_name         : list resources pool of an esx";
 	}
 
 	public String getCommandName() {

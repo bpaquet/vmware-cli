@@ -19,6 +19,7 @@ import com.octo.vmware.commands.RebootGuest;
 import com.octo.vmware.commands.Reset;
 import com.octo.vmware.commands.Show;
 import com.octo.vmware.commands.ShutdownGuest;
+import com.octo.vmware.commands.UnMountVmwareTools;
 import com.octo.vmware.services.Configuration;
 import com.octo.vmware.utils.PropertiesUtils;
 import com.octo.vmware.utils.SoapUtils;
@@ -26,7 +27,7 @@ import com.octo.vmware.utils.SoapUtils;
 public class Cli {
 
 	private static final ICommand[] COMMANDS = { new ListVms(), new Show(), new PowerOff(), new PowerOn(),
-			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new ListResourcePools(), new ListTasks() };
+			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new UnMountVmwareTools(), new ListResourcePools(), new ListTasks() };
 
 	public static void main(String[] args) throws Exception {
 		SoapUtils.initSSL();
