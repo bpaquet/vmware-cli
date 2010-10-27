@@ -24,8 +24,14 @@ public class Show implements ICommand {
 		System.out.println("Guest ip : " + vmInfo.getGuestIp());
 		System.out.println("Guest os name : " + vmInfo.getGuestFullName());
 		System.out.println("UUID : " + vmInfo.getUuid());
+		System.out.println("VM Path : " + vmInfo.getPath());
 		System.out.print("Datastores : ");
 		for(String s : vmInfo.getDatastores()) {
+			System.out.print(s + ", ");
+		}
+		System.out.println();
+		System.out.print("Disks : ");
+		for(String s : vmInfo.getDisks()) {
 			System.out.print(s + ", ");
 		}
 		System.out.println();

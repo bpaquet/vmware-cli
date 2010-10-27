@@ -10,19 +10,19 @@ import com.octo.vmware.utils.ConverterServiceUtil;
 public class ListTasks implements ICommand {
 
 	public void execute(String[] args) throws Exception {
-		ConverterServiceUtil converterServiceUtil = new ConverterServiceUtil();
+		ConverterServiceUtil converterServiceUtil = ConverterServiceUtil.getConverter();
 		List<ConverterTask> list = ConverterTasksListService.getTaskList(converterServiceUtil);
 
 		// Display output
 		System.out.println("Found " + list.size() + " task(s).");
 		if (list.size() > 0) {
 			String header = String
-					.format("%-40s %-40s %-10s %-10s", "Source VM", "Target VM", "Status", "Progress");
+					.format("%-5s %-40s %-40s %-10s %-10s", "Id", "Source VM", "Target VM", "Status", "Progress");
 			System.out.println(header);
 			System.out
 					.println("--------------------------------------------------------------------------------------------------");
 			for (ConverterTask converterTask : list) {
-				System.out.println(String.format("%-40s %-40s %-10s %-10s", converterTask.getSource(),
+				System.out.println(String.format("%-5s %-40s %-40s %-10s %-10s", converterTask.getId(), converterTask.getSource(),
 						converterTask.getTarget(), converterTask.getStatus(), converterTask.getProgress()
 								+ "%".toString()));
 			}

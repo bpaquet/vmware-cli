@@ -12,10 +12,19 @@ import converterservice.ConverterService;
 
 public class ConverterServiceUtil {
 
+	private static ConverterServiceUtil instance;
+	
+	public static ConverterServiceUtil getConverter() throws Exception {
+		if (instance == null) {
+			instance = new ConverterServiceUtil();
+		}
+		return instance;
+	}
+	
 	private ConverterPortType service;
 	private ConverterServiceContent serviceContent;
 
-	public ConverterServiceUtil() throws Exception {
+	private ConverterServiceUtil() throws Exception {
 		Converter converterConf = Configuration.getCurrent().getConverter();
 		initializeService(converterConf.getUrl(), converterConf.getUsername(), converterConf.getPassword());
 	}

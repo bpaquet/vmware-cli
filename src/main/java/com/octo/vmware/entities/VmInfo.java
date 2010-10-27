@@ -6,6 +6,8 @@ import vim2.ManagedObjectReference;
 
 public class VmInfo {
 
+	private String path;
+	
 	private String name;
 	private String uuid;
 	
@@ -21,11 +23,20 @@ public class VmInfo {
 	
 	private List<String> datastores;
 	private List<String> networks;
+	private List<String> disks;
 	
 	private ManagedObjectReference managedObjectReference;
 	
 	private ResourcePool resourcePool;
 	
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -112,6 +123,14 @@ public class VmInfo {
 
 	public void setNetworks(List<String> networks) {
 		this.networks = networks;
+	}
+
+	public List<String> getDisks() {
+		return disks;
+	}
+
+	public void setDisks(List<String> disks) {
+		this.disks = disks;
 	}
 
 	public ManagedObjectReference getManagedObjectReference() {

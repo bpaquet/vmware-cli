@@ -1,7 +1,13 @@
 package com.octo.vmware.entities;
 
+import converter.ConverterTaskInfoState;
+import vim25.ManagedObjectReference;
+
+
 public class ConverterTask {
 
+	private String id;
+	
 	private String source;
 	
 	private String target;
@@ -10,6 +16,16 @@ public class ConverterTask {
 
 	private String status;
 	
+	private ManagedObjectReference managedObjectReference;
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getSource() {
 		return source;
 	}
@@ -41,5 +57,21 @@ public class ConverterTask {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public ManagedObjectReference getManagedObjectReference() {
+		return managedObjectReference;
+	}
+
+	public void setManagedObjectReference(ManagedObjectReference managedObjectReference) {
+		this.managedObjectReference = managedObjectReference;
+	}
 	
+	public boolean isFinished() {
+		return ConverterTaskInfoState.ERROR.toString().equals(status)
+		|| ConverterTaskInfoState.SUCCESS.toString().equals(status);
+	}
+	
+	public boolean isSuccess() {
+		return ConverterTaskInfoState.SUCCESS.toString().equals(status);
+	}
 }

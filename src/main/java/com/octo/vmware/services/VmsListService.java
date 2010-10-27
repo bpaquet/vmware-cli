@@ -13,6 +13,8 @@ import vim2.PropertyFilterSpec;
 import vim2.PropertySpec;
 import vim2.TraversalSpec;
 import vim2.VirtualDevice;
+import vim2.VirtualDisk;
+import vim2.VirtualDiskFlatVer2BackingInfo;
 import vim2.VirtualEthernetCard;
 import vim2.VirtualEthernetCardNetworkBackingInfo;
 import vim2.VirtualMachineConfigInfo;
@@ -81,6 +83,7 @@ public class VmsListService {
 				}
 				else if (prop.getName().equals("config")) {
 					VirtualMachineConfigInfo configInfo = (VirtualMachineConfigInfo) prop.getVal();
+					vmInfo.setPath(configInfo.getFiles().getVmPathName());
 					vmInfo.setUuid(configInfo.getUuid());
 					List<String> datastores = new ArrayList<String>();
 					for(VirtualMachineConfigInfoDatastoreUrlPair datastoreUrlPair : configInfo.getDatastoreUrl()) {
@@ -91,13 +94,24 @@ public class VmsListService {
 					vmInfo.setCpu(configInfo.getHardware().getNumCPU());
 					
 					List<String> networks = new ArrayList<String>();
+					List<String> disks = new ArrayList<String>();
 					for(VirtualDevice vd : configInfo.getHardware().getDevice()) {
 						if (vd instanceof VirtualEthernetCard) {
 							VirtualEthernetCardNetworkBackingInfo cardNetworkBackingInfo = (VirtualEthernetCardNetworkBackingInfo) vd.getBacking();
 							networks.add(cardNetworkBackingInfo.getDeviceName());
 						}
+						if (vd instanceof VirtualDisk) {
+							if (vd.getBacking() instanceof VirtualDiskFlatVer2BackingInfo) {
+								VirtualDiskFlatVer2BackingInfo virtualDiskFlatVer2BackingInfo = (VirtualDiskFlatVer2BackingInfo) vd.getBacking();
+								disks.add(virtualDiskFlatVer2BackingInfo.getFileName());
+							}
+							else {
+								disks.add(vd.getBacking().getClass().getSimpleName());
+							}
+						}
 					}
 					vmInfo.setNetworks(networks);
+					vmInfo.setDisks(disks);
 				}
 				else if (prop.getName().equals("guest")) {
 					GuestInfo guestInfo = (GuestInfo) prop.getVal();

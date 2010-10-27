@@ -24,10 +24,11 @@ public class VimServiceUtil {
 	
 	private VimPortType service;
 	private ServiceContent serviceContent;
+	private EsxServer esxServer;
 
 	private VimServiceUtil(String esxName) throws Exception {
-		EsxServer esx = Configuration.getCurrent().getEsxServer(esxName);
-		initializeService(esx.getUrl(), esx.getUsername(), esx.getPassword());
+		esxServer = Configuration.getCurrent().getEsxServer(esxName);
+		initializeService(esxServer.getUrl(), esxServer.getUsername(), esxServer.getPassword());
 	}
 	
 	private void initializeService(String url, String username, String password) throws Exception {
@@ -48,6 +49,10 @@ public class VimServiceUtil {
 
 	public ServiceContent getServiceContent() {
 		return serviceContent;
+	}
+	
+	public EsxServer getEsxServer() {
+		return esxServer;
 	}
 
 }
