@@ -17,14 +17,14 @@ public class ListTasks implements ICommand {
 		System.out.println("Found " + list.size() + " task(s).");
 		if (list.size() > 0) {
 			String header = String
-					.format("%-5s %-40s %-40s %-10s %-10s", "Id", "Source VM", "Target VM", "Status", "Progress");
+					.format("%-5s %-40s %-40s %-10s %-10s %s", "Id", "Source VM", "Target VM", "Status", "Progress", "Error message");
 			System.out.println(header);
 			System.out
-					.println("--------------------------------------------------------------------------------------------------");
+					.println("------------------------------------------------------------------------------------------------------------------------");
 			for (ConverterTask converterTask : list) {
-				System.out.println(String.format("%-5s %-40s %-40s %-10s %-10s", converterTask.getId(), converterTask.getSource(),
+				System.out.println(String.format("%-5s %-40s %-40s %-10s %-10s %s", converterTask.getId(), converterTask.getSource(),
 						converterTask.getTarget(), converterTask.getStatus(), converterTask.getProgress()
-								+ "%".toString()));
+								+ "%".toString(), converterTask.getErrorMessage()));
 			}
 		}
 

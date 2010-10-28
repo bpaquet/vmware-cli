@@ -18,6 +18,8 @@ public class ConverterTask {
 	
 	private ManagedObjectReference managedObjectReference;
 	
+	private String errorMessage;
+	
 	public String getId() {
 		return id;
 	}
@@ -66,6 +68,14 @@ public class ConverterTask {
 		this.managedObjectReference = managedObjectReference;
 	}
 	
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
 	public boolean isFinished() {
 		return ConverterTaskInfoState.ERROR.toString().equals(status)
 		|| ConverterTaskInfoState.SUCCESS.toString().equals(status);
@@ -74,4 +84,5 @@ public class ConverterTask {
 	public boolean isSuccess() {
 		return ConverterTaskInfoState.SUCCESS.toString().equals(status);
 	}
+	
 }

@@ -8,6 +8,9 @@ public class VmLocation {
 
 	public VmLocation(String s) {
 		String [] splitted = s.split(":");
+		if (splitted.length != 2) {
+			throw new RuntimeException("Wrong virtual machine description : " + s);
+		}
 		esxName = splitted[0];
 		vmName = splitted[1];
 	}

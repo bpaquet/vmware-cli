@@ -37,6 +37,7 @@ public class ConverterTasksListService {
 			converterTask.setProgress(info.getProgress() != null ? info.getProgress() : 0);
 			converterTask.setStatus(info.getState().toString());
 			converterTask.setManagedObjectReference(info.getTask());
+			converterTask.setErrorMessage(info.getError() != null ? info.getError().getLocalizedMessage() : "");
 			l.add(converterTask);
 		}
 		
