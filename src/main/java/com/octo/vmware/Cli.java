@@ -83,6 +83,9 @@ public class Cli {
 			});
 			while (true) {
 				String cmd = consoleReader.readLine("VMWare-Cli> ");
+				if (cmd == null) {
+					System.exit(0);
+				}
 				String[] splittedCommand = CommandSplitter.split(cmd);
 				if (splittedCommand.length != 0) {
 					try {
