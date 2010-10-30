@@ -33,7 +33,7 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
-							<wsdlDirectory>src/main/wsdl</wsdlDirectory>
+							<wsdlDirectory>src/main/resources</wsdlDirectory>
 							<wsdlFiles>
 								<wsdlFile>vimService.wsdl</wsdlFile>
 								<wsdlFile>converterService.wsdl</wsdlFile>

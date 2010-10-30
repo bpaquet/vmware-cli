@@ -32,7 +32,7 @@ public class VimServiceUtil {
 	}
 	
 	private void initializeService(String url, String username, String password) throws Exception {
-		service = new VimService().getVimPort();
+		service = new VimService(this.getClass().getResource("/vimService.wsdl")).getVimPort();
 		SoapUtils.configureStub(service, url);
 		
 		ManagedObjectReference managedObjectReference = new ManagedObjectReference();

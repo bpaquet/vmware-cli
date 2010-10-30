@@ -30,7 +30,7 @@ public class ConverterServiceUtil {
 	}
 
 	private void initializeService(String url, String username, String password) throws Exception {
-		service = new ConverterService().getConverterPort();
+		service = new ConverterService(this.getClass().getResource("/converterService.wsdl")).getConverterPort();
 		SoapUtils.configureStub(service, url);
 
 		ManagedObjectReference reference = new ManagedObjectReference();
