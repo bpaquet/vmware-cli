@@ -9,7 +9,7 @@
 	<name>Simple VMWare CLI</name>
 
 	<properties>
-		<jaxws.version>2.2</jaxws.version>
+		<jaxws.version>2.2.1</jaxws.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -28,7 +28,7 @@
 				<artifactId>jaxws-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>vim</id>
+						<id>vmware stubs</id>
 						<goals>
 							<goal>wsimport</goal>
 						</goals>
@@ -62,13 +62,6 @@
 						</manifest>
 					</archive>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.sun.xml.ws</groupId>
-						<artifactId>jaxws-tools</artifactId>
-						<version>${jaxws.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
@@ -88,12 +81,6 @@
 			<groupId>com.sun.xml.ws</groupId>
 			<artifactId>jaxws-rt</artifactId>
 			<version>${jaxws.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.sun.istack</groupId>
-					<artifactId>istack-commons-runtime</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -106,22 +93,10 @@
 
 	<repositories>
 		<repository>
-			<id>maven-repository.dev.java.net</id>
-			<name>Java.net Repository for Maven 1</name>
-			<url>http://download.java.net/maven/1</url>
-			<layout>legacy</layout>
-		</repository>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<name>Java.net Repository for Maven 2</name>
-			<url>http://download.java.net/maven/2</url>
+			<id>Jboss Main repository</id>
+			<name>Jboss Main repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
 		</repository>
 	</repositories>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2/</url>
-		</pluginRepository>
-	</pluginRepositories>
 </project>
