@@ -41,6 +41,32 @@ Example of available commands :
 * Configure autostart of virtual machines : `autostart_show my_server`
 * Get full command list : `help`
 
+<code>
+	Available commands : 
+	- help                                                              : this help
+	Esx commands : 
+	- list esx_name                                                     : list virtual machiness of an esx server
+	- show esx_name:vm_name                                             : show details about a virtual machine
+	- power_off esx_name:vm_name                                        : power off a virtual machine on an esx server
+	- power_on esx_name:vm_name                                         : power on a virtual machine on an esx server
+	- shutdown_guest esx_name:vm_name                                   : try to shutdown a virtual machine on an esx server
+	- reboot_guest esx_name:vm_name                                     : try to reboot a virtual machine on an esx server
+	- reset esx_name:vm_name                                            : reset a virutal machine on an esx server
+	- mount_tools esx_name:vm_name                                      : mounts the vmware tools cd into virtual machine
+	- unmount_tools esx_name:vm_name                                    : mounts the vmware tools cd into virtual machine
+	- move_into_resource_pool esx_name:vm_name resource_pool_name       : move virtual machine into resource pool
+	- list_resource_pool esx_name                                       : list resources pool of an esx
+	- autostart_show esx_name                                           : show auto start config for an esx server
+	- autostart_enable esx_name:vm_name                                 : configure virtual machine for auto start
+	- autostart_disable esx_name:vm_name                                : configure virtual machine for auto start
+	- delete_from_disk esx_name:vm_name                                 : delete a virtual machone from an esx host
+	Converter commands : 
+	- list_tasks                                                        : lists all tasks of the converter
+	- cancel_task task_id                                               : cancel a converter task
+	- copy_vm esx_source_name:vm_source_name esx_target_name:vm_target_name : copy virtual machine
+	- clear_finished_task                                               : clear all finished tasks
+</code>
+
 You have completion on commands with Tab.
 
 Remark : you can launch all commands without interpreter :
@@ -64,6 +90,13 @@ To compile vmware-cli :
 	mvn clean install
 </code>
 
+## Download a precompiled version
+
+You can also download the latest version on [continuous integration server](http://forge.octo.com/hudson/job/VMWare-CLI/).
+
+* [vmware-cli.sh](http://github.com/bpaquet/vmware-cli/raw/master/vmware-cli.sh)
+* [vmware-cli-1.0-SNAPSHOT-jar-with-dependencies.jar](http://forge.octo.com/hudson/job/VMWare-CLI/lastSuccessfulBuild/artifact/target/vmware-cli-1.0-SNAPSHOT-jar-with-dependencies.jar)
+
 ## Installation
 
 You have two solution :
@@ -72,6 +105,5 @@ You have two solution :
 * install vmware-cli in another directory :
     * copy the file `target\vmware-cli-1.0-SNAPSHOT-jar-with-dependencies.jar` into the target directory
     * copy the file `vmware-cli.sh` into the target directory, and adapt paths into the file
-
 
 	
