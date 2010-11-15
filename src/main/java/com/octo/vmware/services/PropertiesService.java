@@ -17,13 +17,20 @@ import com.octo.vmware.utils.VimServiceUtil;
 public class PropertiesService {
 
 	public static boolean waitForTaskEnd(VimServiceUtil vimServiceUtil, ManagedObjectReference task) throws Exception {
-		while(true) {
+		int failCounter = 0;
+		while(failCounter < 10) {
 			TaskInfo taskInfo = getProperties(vimServiceUtil, "info", task);
-			if (taskInfo.getProgress() == 100) {
-				return taskInfo.getState() == TaskInfoState.SUCCESS;
+			if (taskInfo == null) {
+				failCounter ++;
+			}
+			else {
+				if (taskInfo.getProgress() == 100) {
+					return taskInfo.getState() == TaskInfoState.SUCCESS;
+				}
 			}
 			Thread.sleep(2000);
 		}
+		throw new RuntimeException("Unable to get task properties " + task.getValue());
 	}
 	
 	@SuppressWarnings("unchecked")
