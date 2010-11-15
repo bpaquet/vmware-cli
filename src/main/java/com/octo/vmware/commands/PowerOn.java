@@ -20,7 +20,7 @@ public class PowerOn implements ICommand {
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
 		System.out.println("Power on virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		ManagedObjectReference task = vimServiceUtil.getService().powerOnVMTask(vmInfo.getManagedObjectReference(), null);
-		Thread.sleep(10000);
+		Thread.sleep(5000);
 		System.out.println("Result : " + (PropertiesService.waitForTaskEnd(vimServiceUtil, task) ? "OK" : "Error"));
 	}
 	
