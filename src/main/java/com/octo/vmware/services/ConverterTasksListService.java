@@ -41,6 +41,8 @@ public class ConverterTasksListService {
 			l.add(converterTask);
 		}
 		
+		converterServiceUtil.getService().converterDestroyCollector(collector);
+		
 		return l;
 	}
 	
