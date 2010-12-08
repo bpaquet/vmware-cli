@@ -19,6 +19,7 @@ public class Show implements ICommand {
 		System.out.println("Status : " + vmInfo.getStatus());
 		System.out.println("RAM : " + vmInfo.getRam());
 		System.out.println("CPU : " + vmInfo.getCpu());
+		System.out.println("Resource pool : " + vmInfo.getResourcePool().getName());
 		System.out.println("VMWare tools : " + vmInfo.getGuestToolsStatus());
 		System.out.println("Guest hostname : " + vmInfo.getGuestHostname());
 		System.out.println("Guest ip : " + vmInfo.getGuestIp());
