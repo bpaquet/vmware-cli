@@ -2,9 +2,18 @@ package com.octo.vmware.entities;
 
 public class EsxServer {
 
+	private String name;
 	private String hostname;
 	private String username;
 	private String password;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public String getHostname() {
 		return hostname;

@@ -123,6 +123,9 @@ public class VmsListService {
 			}
 			list.add(vmInfo);
 		}
+		
+		VmsListCache.set(vimServiceUtil.getEsxServer().getName(), list);
+		
 		return list;
 	}
 }

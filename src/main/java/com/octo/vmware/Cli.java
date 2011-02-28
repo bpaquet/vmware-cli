@@ -6,39 +6,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import jline.console.ConsoleReader;
-import jline.console.completer.Completer;
+import jline.console.completer.ArgumentCompleter;
 
 import com.octo.vmware.ICommand.SyntaxError;
 import com.octo.vmware.ICommand.Target;
-import com.octo.vmware.commands.AutostartDisable;
-import com.octo.vmware.commands.AutostartEnable;
-import com.octo.vmware.commands.AutostartInfo;
-import com.octo.vmware.commands.CancelTask;
-import com.octo.vmware.commands.ClearFinishedTasks;
-import com.octo.vmware.commands.CopyVm;
-import com.octo.vmware.commands.DeleteFromDisk;
-import com.octo.vmware.commands.ListResourcePools;
-import com.octo.vmware.commands.ListTasks;
-import com.octo.vmware.commands.ListVms;
-import com.octo.vmware.commands.MountVmwareTools;
-import com.octo.vmware.commands.MoveIntoResourcePool;
-import com.octo.vmware.commands.PowerOff;
-import com.octo.vmware.commands.PowerOn;
-import com.octo.vmware.commands.RebootGuest;
-import com.octo.vmware.commands.Reset;
-import com.octo.vmware.commands.Show;
-import com.octo.vmware.commands.ShutdownGuest;
-import com.octo.vmware.commands.UnMountVmwareTools;
 import com.octo.vmware.services.Configuration;
 import com.octo.vmware.utils.PropertiesUtils;
 import com.octo.vmware.utils.SoapUtils;
 
 public class Cli {
-
-	private static final ICommand[] COMMANDS = { new ListVms(), new Show(), new PowerOff(), new PowerOn(),
-			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new UnMountVmwareTools(),
-			new MoveIntoResourcePool(), new ListResourcePools(), new AutostartInfo(), new AutostartEnable(),
-			new AutostartDisable(), new DeleteFromDisk(), new ListTasks(), new CancelTask(), new CopyVm(), new ClearFinishedTasks()};
 
 	public static void main(String[] args) throws Exception {
 		SoapUtils.initSSL();
@@ -61,26 +37,9 @@ public class Cli {
 			System.exit(ok ? 0 : 1);
 		} else {
 			ConsoleReader consoleReader = new ConsoleReader();
-			consoleReader.addCompleter(new Completer() {
-				
-				public int complete(String arg0, int arg1, List<CharSequence> arg2) {
-					String before = arg0.substring(0, arg1);
-					if (before.length() == 0) {
-						for(ICommand command : COMMANDS) {
-							arg2.add(command.getCommand() + " ");
-						}
-					}
-					else {
-						for(ICommand command : COMMANDS) {
-							if (command.getCommand().startsWith(before)) {
-								arg2.add(command.getCommand().substring(before.length() - 1) + " ");
-							}
-						}
-					}
-					return arg1 - 1;
-				}
-				
-			});
+			StoredArgumentDelimiter storedArgumentDelimiter = new StoredArgumentDelimiter();
+			ArgumentCompleter argumentCompleter = new ArgumentCompleter(storedArgumentDelimiter, new CommandCompleter(), new ArgsXCompleter(1, storedArgumentDelimiter));
+			consoleReader.addCompleter(argumentCompleter);
 			while (true) {
 				String cmd = consoleReader.readLine("VMWare-Cli> ");
 				if (cmd == null) {
@@ -106,7 +65,7 @@ public class Cli {
 	}
 	
 	private boolean executeComand(String run, String[] args) throws Exception {
-		for (ICommand command : COMMANDS) {
+		for (ICommand command : ICommands.COMMANDS) {
 			if ("help".equals(run)) {
 				help();
 				return true;
@@ -158,7 +117,7 @@ public class Cli {
 	}
 
 	private void help(Target target) {
-		for (ICommand command : COMMANDS) {
+		for (ICommand command : ICommands.COMMANDS) {
 			if (command.getTarget() == target) {
 				System.out.println(format(command));
 			}

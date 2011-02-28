@@ -12,9 +12,6 @@ import com.octo.vmware.services.Configuration;
 
 public final class PropertiesUtils {
 
-	/**
-	 * Prevent instanciating outside of the package
-	 */
 	PropertiesUtils() {
 	}
 
@@ -26,11 +23,6 @@ public final class PropertiesUtils {
 		return pu.loadConfiguration(defaultProps);
 	}
 
-	/**
-	 * Read the properties and load configuration by reference
-	 * 
-	 * @param properties
-	 */
 	Configuration loadConfiguration(Properties properties) throws Exception {
 		Configuration conf = new Configuration();
 		conf.setConverter(new Converter());
@@ -39,13 +31,14 @@ public final class PropertiesUtils {
 		for (Enumeration<Object> keysEnum = properties.keys(); keysEnum.hasMoreElements();) {
 			String key = (String) keysEnum.nextElement();
 			String ketToSet = null;
-			// Esx properties have the form esx.<server name>.usr=<myusr>
 			if (key.toLowerCase().startsWith("esx.")) {
 				int firstPoint = key.indexOf('.');
 				int secondPoint = key.indexOf('.', firstPoint + 1);
 				String esxKey = key.substring(firstPoint + 1, secondPoint).toLowerCase();
 				if (!conf.getEsxServers().containsKey(esxKey)) {
-					conf.getEsxServers().put(esxKey, new EsxServer());
+					EsxServer esxServer = new EsxServer();
+					esxServer.setName(esxKey);
+					conf.getEsxServers().put(esxKey, esxServer);
 				}
 				bean = conf.getEsxServers().get(esxKey);
 				ketToSet = key.substring(secondPoint + 1);
