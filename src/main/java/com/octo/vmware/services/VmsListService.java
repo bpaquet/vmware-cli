@@ -98,7 +98,7 @@ public class VmsListService {
 					for(VirtualDevice vd : configInfo.getHardware().getDevice()) {
 						if (vd instanceof VirtualEthernetCard) {
 							VirtualEthernetCardNetworkBackingInfo cardNetworkBackingInfo = (VirtualEthernetCardNetworkBackingInfo) vd.getBacking();
-							networks.add(cardNetworkBackingInfo.getDeviceName());
+							networks.add(cardNetworkBackingInfo.getDeviceName() + "[" + vd.getClass().getSimpleName() + "]");
 						}
 						if (vd instanceof VirtualDisk) {
 							if (vd.getBacking() instanceof VirtualDiskFlatVer2BackingInfo) {
@@ -115,6 +115,7 @@ public class VmsListService {
 				}
 				else if (prop.getName().equals("guest")) {
 					GuestInfo guestInfo = (GuestInfo) prop.getVal();
+					vmInfo.setGuestId(guestInfo.getGuestId());
 					vmInfo.setGuestHostname(guestInfo.getHostName());
 					vmInfo.setGuestIp(guestInfo.getIpAddress());
 					vmInfo.setGuestFullName(guestInfo.getGuestFullName());

@@ -20,6 +20,7 @@ public class VmInfo {
 	private String guestIp;
 	private String guestFullName;
 	private String guestToolsStatus;
+	private String guestId;
 	
 	private List<String> datastores;
 	private List<String> networks;
@@ -99,6 +100,14 @@ public class VmInfo {
 
 	public void setGuestFullName(String guestFullName) {
 		this.guestFullName = guestFullName;
+	}
+
+	public void setGuestId(String guestId) {
+		this.guestId = guestId;
+	}
+	
+	public String getGuestId() {
+		return guestId;
 	}
 
 	public String getGuestToolsStatus() {
