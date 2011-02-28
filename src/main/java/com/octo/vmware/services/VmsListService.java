@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import vim2.DynamicProperty;
-import vim2.GuestInfo;
-import vim2.ManagedObjectReference;
-import vim2.ObjectContent;
-import vim2.ObjectSpec;
-import vim2.PropertyFilterSpec;
-import vim2.PropertySpec;
-import vim2.TraversalSpec;
-import vim2.VirtualDevice;
-import vim2.VirtualDisk;
-import vim2.VirtualDiskFlatVer2BackingInfo;
-import vim2.VirtualEthernetCard;
-import vim2.VirtualEthernetCardNetworkBackingInfo;
-import vim2.VirtualMachineConfigInfo;
-import vim2.VirtualMachineConfigInfoDatastoreUrlPair;
-import vim2.VirtualMachineRuntimeInfo;
+import vim25.DynamicProperty;
+import vim25.GuestInfo;
+import vim25.ManagedObjectReference;
+import vim25.ObjectContent;
+import vim25.ObjectSpec;
+import vim25.PropertyFilterSpec;
+import vim25.PropertySpec;
+import vim25.TraversalSpec;
+import vim25.VirtualDevice;
+import vim25.VirtualDisk;
+import vim25.VirtualDiskFlatVer2BackingInfo;
+import vim25.VirtualEthernetCard;
+import vim25.VirtualEthernetCardNetworkBackingInfo;
+import vim25.VirtualMachineConfigInfo;
+import vim25.VirtualMachineConfigInfoDatastoreUrlPair;
+import vim25.VirtualMachineRuntimeInfo;
 
 import com.octo.vmware.entities.ResourcePool;
 import com.octo.vmware.entities.VmInfo;
@@ -98,7 +98,7 @@ public class VmsListService {
 					for(VirtualDevice vd : configInfo.getHardware().getDevice()) {
 						if (vd instanceof VirtualEthernetCard) {
 							VirtualEthernetCardNetworkBackingInfo cardNetworkBackingInfo = (VirtualEthernetCardNetworkBackingInfo) vd.getBacking();
-							networks.add(cardNetworkBackingInfo.getDeviceName() + "[" + vd.getClass().getSimpleName() + "]");
+							networks.add(cardNetworkBackingInfo.getDeviceName() + " [" + vd.getClass().getSimpleName() + "]");
 						}
 						if (vd instanceof VirtualDisk) {
 							if (vd.getBacking() instanceof VirtualDiskFlatVer2BackingInfo) {

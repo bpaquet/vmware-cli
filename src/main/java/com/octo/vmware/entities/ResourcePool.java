@@ -1,6 +1,6 @@
 package com.octo.vmware.entities;
 
-import vim2.ManagedObjectReference;
+import vim25.ManagedObjectReference;
 
 public class ResourcePool {
 

@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import vim2.VirtualMachinePowerState;
 import vim25.ManagedObjectReference;
+import vim25.VirtualMachinePowerState;
 
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.ConverterTask;
@@ -183,7 +183,7 @@ public class CopyVm implements ICommand {
 		return converterVimConnectionSpec;
 	}
 	
-	private ManagedObjectReference transcodeManagedObjectReference(vim2.ManagedObjectReference managedObjectReference) {
+	private ManagedObjectReference transcodeManagedObjectReference(vim25.ManagedObjectReference managedObjectReference) {
 		ManagedObjectReference newManagedObjectReference = new ManagedObjectReference();
 		newManagedObjectReference.setType(managedObjectReference.getType());
 		newManagedObjectReference.setValue(managedObjectReference.getValue());

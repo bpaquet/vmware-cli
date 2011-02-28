@@ -1,6 +1,6 @@
 package com.octo.vmware.commands;
 
-import vim2.ManagedObjectReference;
+import vim25.ManagedObjectReference;
 
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;

@@ -1,7 +1,7 @@
 package com.octo.vmware.utils;
 
-import vim2.SelectionSpec;
-import vim2.TraversalSpec;
+import vim25.SelectionSpec;
+import vim25.TraversalSpec;
 
 public class TraversalSpecHelper {
 	

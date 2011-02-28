@@ -3,14 +3,14 @@ package com.octo.vmware.services;
 import java.util.Arrays;
 import java.util.List;
 
-import vim2.DynamicProperty;
-import vim2.ManagedObjectReference;
-import vim2.ObjectContent;
-import vim2.ObjectSpec;
-import vim2.PropertyFilterSpec;
-import vim2.PropertySpec;
-import vim2.TaskInfo;
-import vim2.TaskInfoState;
+import vim25.DynamicProperty;
+import vim25.ManagedObjectReference;
+import vim25.ObjectContent;
+import vim25.ObjectSpec;
+import vim25.PropertyFilterSpec;
+import vim25.PropertySpec;
+import vim25.TaskInfo;
+import vim25.TaskInfoState;
 
 import com.octo.vmware.utils.VimServiceUtil;
 

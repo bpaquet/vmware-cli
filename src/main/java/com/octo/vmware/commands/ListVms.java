@@ -2,8 +2,8 @@ package com.octo.vmware.commands;
 
 import java.util.List;
 
-import vim2.VirtualMachinePowerState;
-import vim2.VirtualMachineToolsStatus;
+import vim25.VirtualMachinePowerState;
+import vim25.VirtualMachineToolsStatus;
 
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;

@@ -46,4 +46,40 @@
          <element name="_this" type="vim25:ManagedObjectReference" />
       </sequence>
    </complexType>
+   <complexType name="WaitForUpdatesExRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="version" type="xsd:string" minOccurs="0" />
+         <element name="options" type="vim25:WaitOptions" minOccurs="0" />
+      </sequence>
+   </complexType>
+   <complexType name="RetrievePropertiesExRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="specSet" type="vim25:PropertyFilterSpec" maxOccurs="unbounded" />
+         <element name="options" type="vim25:RetrieveOptions" />
+      </sequence>
+   </complexType>
+   <complexType name="ContinueRetrievePropertiesExRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="token" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="CancelRetrievePropertiesExRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+         <element name="token" type="xsd:string" />
+      </sequence>
+   </complexType>
+   <complexType name="CreatePropertyCollectorRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
+   <complexType name="DestroyPropertyCollectorRequestType">
+      <sequence>
+         <element name="_this" type="vim25:ManagedObjectReference" />
+      </sequence>
+   </complexType>
 </schema>

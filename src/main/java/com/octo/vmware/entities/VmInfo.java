@@ -2,7 +2,7 @@ package com.octo.vmware.entities;
 
 import java.util.List;
 
-import vim2.ManagedObjectReference;
+import vim25.ManagedObjectReference;
 
 public class VmInfo {
 

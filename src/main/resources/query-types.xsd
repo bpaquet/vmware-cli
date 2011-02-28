@@ -33,6 +33,7 @@
             <sequence>
                <element name="propSet" type="vim25:PropertySpec" maxOccurs="unbounded" />
                <element name="objectSet" type="vim25:ObjectSpec" maxOccurs="unbounded" />
+               <element name="reportMissingObjectsInResults" type="xsd:boolean" minOccurs="0" />
             </sequence>
          </extension>
       </complexContent>
@@ -122,6 +123,7 @@
             <sequence>
                <element name="version" type="xsd:string" />
                <element name="filterSet" type="vim25:PropertyFilterUpdate" minOccurs="0" maxOccurs="unbounded" />
+               <element name="truncated" type="xsd:boolean" minOccurs="0" />
             </sequence>
          </extension>
       </complexContent>
@@ -219,5 +221,34 @@
       <sequence>
          <element name="MissingObject" type="vim25:MissingObject" minOccurs="0" maxOccurs="unbounded" />
       </sequence>
+   </complexType>
+   <complexType name="WaitOptions">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="maxWaitSeconds" type="xsd:int" minOccurs="0" />
+               <element name="maxObjectUpdates" type="xsd:int" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="RetrieveOptions">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="maxObjects" type="xsd:int" minOccurs="0" />
+            </sequence>
+         </extension>
+      </complexContent>
+   </complexType>
+   <complexType name="RetrieveResult">
+      <complexContent>
+         <extension base="vim25:DynamicData">
+            <sequence>
+               <element name="token" type="xsd:string" minOccurs="0" />
+               <element name="objects" type="vim25:ObjectContent" maxOccurs="unbounded" />
+            </sequence>
+         </extension>
+      </complexContent>
    </complexType>
 </schema>

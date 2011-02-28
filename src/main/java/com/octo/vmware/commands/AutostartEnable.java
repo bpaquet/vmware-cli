@@ -2,11 +2,11 @@ package com.octo.vmware.commands;
 
 import java.util.List;
 
-import vim2.AutoStartPowerInfo;
-import vim2.AutoStartWaitHeartbeatSetting;
-import vim2.HostAutoStartManagerConfig;
-import vim2.HostConfigInfo;
-import vim2.HostConfigManager;
+import vim25.AutoStartPowerInfo;
+import vim25.AutoStartWaitHeartbeatSetting;
+import vim25.HostAutoStartManagerConfig;
+import vim25.HostConfigInfo;
+import vim25.HostConfigManager;
 
 import com.octo.vmware.ICommand;
 import com.octo.vmware.entities.VmInfo;
