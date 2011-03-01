@@ -17,6 +17,7 @@ import com.octo.vmware.commands.PowerOn;
 import com.octo.vmware.commands.RebootGuest;
 import com.octo.vmware.commands.Reset;
 import com.octo.vmware.commands.SetCpu;
+import com.octo.vmware.commands.SetGuestOs;
 import com.octo.vmware.commands.SetMem;
 import com.octo.vmware.commands.Show;
 import com.octo.vmware.commands.ShutdownGuest;
@@ -28,6 +29,6 @@ public interface ICommands {
 			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new UnMountVmwareTools(),
 			new MoveIntoResourcePool(), new ListResourcePools(), new AutostartInfo(), new AutostartEnable(),
 			new AutostartDisable(), new DeleteFromDisk(), new ListTasks(), new CancelTask(), new CopyVm(),
-			new ClearFinishedTasks(), new SetCpu(), new SetMem() };
+			new ClearFinishedTasks(), new SetCpu(), new SetMem(), new SetGuestOs() };
 
 }

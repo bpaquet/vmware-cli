@@ -4,6 +4,8 @@ import java.util.List;
 
 import jline.console.completer.ArgumentCompleter;
 import jline.console.completer.Completer;
+import jline.console.completer.StringsCompleter;
+import vim25.VirtualMachineGuestOsIdentifier;
 
 public class ArgsXCompleter implements Completer {
 
@@ -12,8 +14,9 @@ public class ArgsXCompleter implements Completer {
 	private ArgumentCompleter vmCompleter;
 	
 	private Completer esxWithColonCompleter;
-	
 	private Completer esxCompleter;
+	private StringsCompleter guestOsCompleter;
+	
 	private int argsIndex;
 	
 	public ArgsXCompleter(int argsIndex, StoredArgumentDelimiter storedArgumentDelimiter) {
@@ -23,6 +26,10 @@ public class ArgsXCompleter implements Completer {
 		StoredColonArgumentDelimiter storedColonArgumentDelimiter = new StoredColonArgumentDelimiter();
 		this.esxWithColonCompleter = new StoredColonArgumentDelimiter.SpaceToColonCompleter(new EsxCompleter());
 		this.vmCompleter = new ArgumentCompleter(storedColonArgumentDelimiter, esxWithColonCompleter, new VmNameCompleter(storedColonArgumentDelimiter));
+		this.guestOsCompleter = new StringsCompleter();
+		for(VirtualMachineGuestOsIdentifier virtualMachineGuestOsIdentifier : VirtualMachineGuestOsIdentifier.values()) {
+			this.guestOsCompleter.getStrings().add(virtualMachineGuestOsIdentifier.value());
+		}
 	}
 
 	public int complete(String buffer, int index, List<CharSequence> candidates) {
@@ -45,6 +52,9 @@ public class ArgsXCompleter implements Completer {
 	
 		if (type.equals("esx_target_name:vm_target_name")) {
 			return esxWithColonCompleter.complete(buffer, index, candidates);
+		}
+		if (type.equals("guest_os")) {
+			return guestOsCompleter.complete(buffer, index, candidates);
 		}
 	
 		return index;
