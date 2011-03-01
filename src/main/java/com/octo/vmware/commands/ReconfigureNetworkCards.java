@@ -37,7 +37,7 @@ public class ReconfigureNetworkCards implements ICommand {
 			
 			VirtualEthernetCard newCard = new VirtualVmxnet3();
 			VirtualEthernetCardNetworkBackingInfo backingInfo = new VirtualEthernetCardNetworkBackingInfo();
-			backingInfo.setDeviceName("Intranet");
+			backingInfo.setDeviceName(network.getNetworkName());
 			newCard.setBacking(backingInfo);
 			VirtualDeviceConfigSpec specAdd = new VirtualDeviceConfigSpec();
 			specAdd.setDevice(newCard);
