@@ -20,9 +20,12 @@ public class PropertiesService {
 		int failCounter = 0;
 		while(failCounter < 10) {
 			TaskInfo taskInfo = getProperties(vimServiceUtil, "info", task);
-			if (taskInfo != null && taskInfo.getProgress() != null && taskInfo.getState() != null) {
-				if (taskInfo.getProgress() == 100) {
-					return taskInfo.getState() == TaskInfoState.SUCCESS;
+			if (taskInfo != null && taskInfo.getState() != null) {
+				if (taskInfo.getState() == TaskInfoState.SUCCESS) {
+					return true;
+				}
+				if (taskInfo.getState() == TaskInfoState.ERROR) {
+					return false;
 				}
 			}
 			else {
