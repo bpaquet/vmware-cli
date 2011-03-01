@@ -11,6 +11,8 @@ public class ArgsXCompleter implements Completer {
 	
 	private ArgumentCompleter vmCompleter;
 	
+	private Completer esxWithColonCompleter;
+	
 	private Completer esxCompleter;
 	private int argsIndex;
 	
@@ -19,7 +21,8 @@ public class ArgsXCompleter implements Completer {
 		this.storedArgumentDelimiter = storedArgumentDelimiter;
 		this.esxCompleter = new EsxCompleter();
 		StoredColonArgumentDelimiter storedColonArgumentDelimiter = new StoredColonArgumentDelimiter();
-		this.vmCompleter = new ArgumentCompleter(storedColonArgumentDelimiter, new StoredColonArgumentDelimiter.SpaceToColonCompleter(new EsxCompleter()), new VmNameCompleter(storedColonArgumentDelimiter));
+		this.esxWithColonCompleter = new StoredColonArgumentDelimiter.SpaceToColonCompleter(new EsxCompleter());
+		this.vmCompleter = new ArgumentCompleter(storedColonArgumentDelimiter, esxWithColonCompleter, new VmNameCompleter(storedColonArgumentDelimiter));
 	}
 
 	public int complete(String buffer, int index, List<CharSequence> candidates) {
@@ -36,8 +39,12 @@ public class ArgsXCompleter implements Completer {
 		if (type.equals("esx_name")) {
 			return esxCompleter.complete(buffer, index, candidates);
 		}
-		if (type.equals("esx_name:vm_name")) {
+		if (type.equals("esx_name:vm_name") || type.equals("esx_source_name:vm_source_name")) {
 			return vmCompleter.complete(buffer, index, candidates);
+		}
+	
+		if (type.equals("esx_target_name:vm_target_name")) {
+			return esxWithColonCompleter.complete(buffer, index, candidates);
 		}
 	
 		return index;

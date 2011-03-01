@@ -38,7 +38,7 @@ public class Cli {
 		} else {
 			ConsoleReader consoleReader = new ConsoleReader();
 			StoredArgumentDelimiter storedArgumentDelimiter = new StoredArgumentDelimiter();
-			ArgumentCompleter argumentCompleter = new ArgumentCompleter(storedArgumentDelimiter, new CommandCompleter(), new ArgsXCompleter(1, storedArgumentDelimiter));
+			ArgumentCompleter argumentCompleter = new ArgumentCompleter(storedArgumentDelimiter, new CommandCompleter(), new ArgsXCompleter(1, storedArgumentDelimiter), new ArgsXCompleter(2, storedArgumentDelimiter), new ArgsXCompleter(3, storedArgumentDelimiter));
 			consoleReader.addCompleter(argumentCompleter);
 			while (true) {
 				String cmd = consoleReader.readLine("VMWare-Cli> ");
