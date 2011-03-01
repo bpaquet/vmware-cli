@@ -23,7 +23,7 @@ public class VmInfo {
 	private String guestId;
 	
 	private List<String> datastores;
-	private List<String> networks;
+	private List<VMNetwork> networks;
 	private List<String> disks;
 	
 	private ManagedObjectReference managedObjectReference;
@@ -126,11 +126,11 @@ public class VmInfo {
 		this.datastores = datastores;
 	}
 
-	public List<String> getNetworks() {
+	public List<VMNetwork> getNetworks() {
 		return networks;
 	}
 
-	public void setNetworks(List<String> networks) {
+	public void setNetworks(List<VMNetwork> networks) {
 		this.networks = networks;
 	}
 

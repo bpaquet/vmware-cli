@@ -1,6 +1,7 @@
 package com.octo.vmware.commands;
 
 import com.octo.vmware.ICommand;
+import com.octo.vmware.entities.VMNetwork;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.entities.VmLocation;
 import com.octo.vmware.services.VmsListService;
@@ -38,8 +39,8 @@ public class Show implements ICommand {
 		}
 		System.out.println();
 		System.out.print("Networks : ");
-		for(String s : vmInfo.getNetworks()) {
-			System.out.print(s + ", ");
+		for(VMNetwork network : vmInfo.getNetworks()) {
+			System.out.print(network.getNetworkName() + " [" + network.getType() + "], ");
 		}
 		System.out.println();
 	}

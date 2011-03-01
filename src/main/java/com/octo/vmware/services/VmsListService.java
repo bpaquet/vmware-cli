@@ -22,6 +22,7 @@ import vim25.VirtualMachineConfigInfoDatastoreUrlPair;
 import vim25.VirtualMachineRuntimeInfo;
 
 import com.octo.vmware.entities.ResourcePool;
+import com.octo.vmware.entities.VMNetwork;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.utils.TraversalSpecHelper;
 import com.octo.vmware.utils.VimServiceUtil;
@@ -93,12 +94,16 @@ public class VmsListService {
 					vmInfo.setRam(configInfo.getHardware().getMemoryMB());
 					vmInfo.setCpu(configInfo.getHardware().getNumCPU());
 					
-					List<String> networks = new ArrayList<String>();
+					List<VMNetwork> networks = new ArrayList<VMNetwork>();
 					List<String> disks = new ArrayList<String>();
 					for(VirtualDevice vd : configInfo.getHardware().getDevice()) {
 						if (vd instanceof VirtualEthernetCard) {
 							VirtualEthernetCardNetworkBackingInfo cardNetworkBackingInfo = (VirtualEthernetCardNetworkBackingInfo) vd.getBacking();
-							networks.add(cardNetworkBackingInfo.getDeviceName() + " [" + vd.getClass().getSimpleName() + "]");
+							VMNetwork network = new VMNetwork();
+							network.setNetworkName(cardNetworkBackingInfo.getDeviceName());
+							network.setType(vd.getClass().getSimpleName());
+							network.setKey(vd.getKey());
+							networks.add(network);
 						}
 						if (vd instanceof VirtualDisk) {
 							if (vd.getBacking() instanceof VirtualDiskFlatVer2BackingInfo) {

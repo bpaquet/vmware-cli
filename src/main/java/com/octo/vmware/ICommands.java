@@ -15,6 +15,7 @@ import com.octo.vmware.commands.MoveIntoResourcePool;
 import com.octo.vmware.commands.PowerOff;
 import com.octo.vmware.commands.PowerOn;
 import com.octo.vmware.commands.RebootGuest;
+import com.octo.vmware.commands.ReconfigureNetworkCards;
 import com.octo.vmware.commands.Reset;
 import com.octo.vmware.commands.SetCpu;
 import com.octo.vmware.commands.SetGuestOs;
@@ -29,6 +30,6 @@ public interface ICommands {
 			new ShutdownGuest(), new RebootGuest(), new Reset(), new MountVmwareTools(), new UnMountVmwareTools(),
 			new MoveIntoResourcePool(), new ListResourcePools(), new AutostartInfo(), new AutostartEnable(),
 			new AutostartDisable(), new DeleteFromDisk(), new ListTasks(), new CancelTask(), new CopyVm(),
-			new ClearFinishedTasks(), new SetCpu(), new SetMem(), new SetGuestOs() };
+			new ClearFinishedTasks(), new SetCpu(), new SetMem(), new SetGuestOs(), new ReconfigureNetworkCards() };
 
 }
