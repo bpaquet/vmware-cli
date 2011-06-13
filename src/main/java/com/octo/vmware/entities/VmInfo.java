@@ -6,30 +6,42 @@ import vim25.ManagedObjectReference;
 
 public class VmInfo {
 
+	private VmLocation vmLocation;
+
 	private String path;
-	
+
 	private String name;
 	private String uuid;
-	
+
 	private int ram;
 	private int cpu;
-	
+
 	private String status;
-	
+
 	private String guestHostname;
 	private String guestIp;
 	private String guestFullName;
 	private String guestToolsStatus;
 	private String guestId;
-	
+
 	private List<String> datastores;
-	private List<VMNetwork> networks;
+	private List<VmNetwork> networks;
 	private List<String> disks;
-	
+
 	private ManagedObjectReference managedObjectReference;
-	
+
 	private ResourcePool resourcePool;
+
+	private String autoStart;
 	
+	public VmLocation getVmLocation() {
+		return vmLocation;
+	}
+
+	public void setVmLocation(VmLocation vmLocation) {
+		this.vmLocation = vmLocation;
+	}
+
 	public String getPath() {
 		return path;
 	}
@@ -105,7 +117,7 @@ public class VmInfo {
 	public void setGuestId(String guestId) {
 		this.guestId = guestId;
 	}
-	
+
 	public String getGuestId() {
 		return guestId;
 	}
@@ -126,11 +138,11 @@ public class VmInfo {
 		this.datastores = datastores;
 	}
 
-	public List<VMNetwork> getNetworks() {
+	public List<VmNetwork> getNetworks() {
 		return networks;
 	}
 
-	public void setNetworks(List<VMNetwork> networks) {
+	public void setNetworks(List<VmNetwork> networks) {
 		this.networks = networks;
 	}
 
@@ -157,5 +169,13 @@ public class VmInfo {
 	public void setResourcePool(ResourcePool resourcePool) {
 		this.resourcePool = resourcePool;
 	}
-		
+
+	public String getAutoStart() {
+		return autoStart;
+	}
+
+	public void setAutoStart(String autoStart) {
+		this.autoStart = autoStart;
+	}
+	
 }

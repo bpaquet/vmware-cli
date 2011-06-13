@@ -8,16 +8,16 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class RebootGuest implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
 		VmLocation vmLocation = new VmLocation(args[0]);
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
-		System.out.println("Reboot guest virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
+		outputer.log("Reboot guest virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		vimServiceUtil.getService().rebootGuest(vmInfo.getManagedObjectReference());
-		System.out.println("Done");
+		outputer.result(true);
 	}
 	
 	public String getSyntax() {

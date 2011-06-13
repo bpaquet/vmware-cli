@@ -1,8 +1,26 @@
 package com.octo.vmware;
 
+import com.octo.vmware.utils.VimServiceUtil;
+
 public interface ICommand {
 	
 	enum Target { ESX, CONVERTER };
+	
+	interface IObjectOutputer<T> {
+		
+		void output(IOutputer outputer, VimServiceUtil vimServiceUtil, T object);
+		
+	}
+	
+	interface IOutputer {
+	
+		void log(String message);
+		
+		<T> void output(T result, VimServiceUtil vimServiceUtil, IObjectOutputer<T> objectOutputer);
+		
+		void result(boolean result);
+		
+	}
 	
 	class SyntaxError extends Exception {
 
@@ -18,6 +36,6 @@ public interface ICommand {
 
 	String getHelp();
 
-	void execute(String [] args) throws Exception;
+	void execute(IOutputer outputer, String [] args) throws Exception;
 
 }

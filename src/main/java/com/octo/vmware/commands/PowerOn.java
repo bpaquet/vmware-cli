@@ -11,16 +11,16 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class PowerOn implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
 		VmLocation vmLocation = new VmLocation(args[0]);
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
-		System.out.println("Power on virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
+		outputer.log("Power on virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		ManagedObjectReference task = vimServiceUtil.getService().powerOnVMTask(vmInfo.getManagedObjectReference(), null);
-		System.out.println("Result : " + (PropertiesService.waitForTaskEnd(vimServiceUtil, task) ? "OK" : "Error"));
+		outputer.result(PropertiesService.waitForTaskEnd(vimServiceUtil, task));
 	}
 	
 	public String getSyntax() {

@@ -1,6 +1,6 @@
 package com.octo.vmware.entities;
 
-public class VMNetwork {
+public class VmNetwork {
 
 	private String networkName;
 	

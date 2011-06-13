@@ -1,49 +1,56 @@
 package com.octo.vmware.commands;
 
 import com.octo.vmware.ICommand;
-import com.octo.vmware.entities.VMNetwork;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.entities.VmLocation;
+import com.octo.vmware.entities.VmNetwork;
 import com.octo.vmware.services.VmsListService;
 import com.octo.vmware.utils.VimServiceUtil;
 
 public class Show implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
 		VmLocation vmLocation = new VmLocation(args[0]);
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
-		System.out.println("Virtual machine '" + vmLocation.getVmName() + "' on " + vmLocation.getEsxName());
-		System.out.println("Status : " + vmInfo.getStatus());
-		System.out.println("RAM : " + vmInfo.getRam());
-		System.out.println("CPU : " + vmInfo.getCpu());
-		System.out.println("Resource pool : " + vmInfo.getResourcePool().getName());
-		System.out.println("VMWare tools : " + vmInfo.getGuestToolsStatus());
-		System.out.println("Guest hostname : " + vmInfo.getGuestHostname());
-		System.out.println("Guest ip : " + vmInfo.getGuestIp());
-		System.out.println("Guest os name : " + vmInfo.getGuestFullName());
-		System.out.println("Guest os id : " + vmInfo.getGuestId());
-		System.out.println("UUID : " + vmInfo.getUuid());
-		System.out.println("VM Path : " + vmInfo.getPath());
-		System.out.print("Datastores : ");
-		for(String s : vmInfo.getDatastores()) {
-			System.out.print(s + ", ");
+		
+		outputer.output(vmInfo, vimServiceUtil, new IObjectOutputer<VmInfo>() {
+
+			public void output(IOutputer outputer, VimServiceUtil vimServiceUtil, VmInfo vmInfo) {
+				outputer.log("Virtual machine '" + vmInfo.getVmLocation().getVmName() + "' on " + vmInfo.getVmLocation().getEsxName());
+				outputer.log("Status : " + vmInfo.getStatus());
+				outputer.log("RAM : " + vmInfo.getRam());
+				outputer.log("CPU : " + vmInfo.getCpu());
+				outputer.log("Resource pool : " + vmInfo.getResourcePool().getName());
+				outputer.log("VMWare tools : " + vmInfo.getGuestToolsStatus());
+				outputer.log("Guest hostname : " + vmInfo.getGuestHostname());
+				outputer.log("Guest ip : " + vmInfo.getGuestIp());
+				outputer.log("Guest os name : " + vmInfo.getGuestFullName());
+				outputer.log("Guest os id : " + vmInfo.getGuestId());
+				outputer.log("UUID : " + vmInfo.getUuid());
+				outputer.log("VM Path : " + vmInfo.getPath());
+				String datastores = "Datastores : ";
+				for(String s : vmInfo.getDatastores()) {
+					datastores += s + ", ";
+				}
+				outputer.log(datastores);
+				String disks = "Disks : ";
+				for(String s : vmInfo.getDisks()) {
+					disks += s + ", ";
+				}
+				outputer.log(disks);
+				String networks = "Networks : ";
+				for(VmNetwork network : vmInfo.getNetworks()) {
+					networks += network.getNetworkName() + " [" + network.getType() + "], ";
+				}
+				outputer.log(networks);
+			}
+			
+		});
 		}
-		System.out.println();
-		System.out.print("Disks : ");
-		for(String s : vmInfo.getDisks()) {
-			System.out.print(s + ", ");
-		}
-		System.out.println();
-		System.out.print("Networks : ");
-		for(VMNetwork network : vmInfo.getNetworks()) {
-			System.out.print(network.getNetworkName() + " [" + network.getType() + "], ");
-		}
-		System.out.println();
-	}
 
 	public String getSyntax() {
 		return "esx_name:vm_name"; 

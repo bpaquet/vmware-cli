@@ -12,7 +12,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class SetMem implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 2) {
 			throw new SyntaxError();
 		}
@@ -20,11 +20,11 @@ public class SetMem implements ICommand {
 		long memory = Long.parseLong(args[1]);
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
-		System.out.println("Set memory : " + memory + " MB for virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
+		outputer.log("Set memory : " + memory + " MB for virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		VirtualMachineConfigSpec configSpec = new VirtualMachineConfigSpec();
 		configSpec.setMemoryMB(memory);
 		ManagedObjectReference task = vimServiceUtil.getService().reconfigVMTask(vmInfo.getManagedObjectReference(), configSpec);
-		System.out.println("Result : " + (PropertiesService.waitForTaskEnd(vimServiceUtil, task) ? "OK" : "Error"));
+		outputer.result(PropertiesService.waitForTaskEnd(vimServiceUtil, task));
 	}
 
 	public String getSyntax() {

@@ -12,7 +12,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class MoveIntoResourcePool implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 2) {
 			throw new SyntaxError();
 		}
@@ -20,9 +20,9 @@ public class MoveIntoResourcePool implements ICommand {
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
 		ResourcePool resourcePool = ResourcePoolService.findResourcePoolByName(vimServiceUtil, args[1]);
-		System.out.println("Moving virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName() + " into resource pool " + resourcePool.getName());
+		outputer.log("Moving virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName() + " into resource pool " + resourcePool.getName());
 		vimServiceUtil.getService().moveIntoResourcePool(resourcePool.getManagedObjectReference(), Arrays.asList(vmInfo.getManagedObjectReference()));
-		System.out.println("Done");
+		outputer.result(true);
 	}
 
 	public String getSyntax() {

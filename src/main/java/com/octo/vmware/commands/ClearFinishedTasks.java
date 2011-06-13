@@ -9,17 +9,17 @@ import com.octo.vmware.utils.ConverterServiceUtil;
 
 public class ClearFinishedTasks implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		ConverterServiceUtil converterServiceUtil = ConverterServiceUtil.getConverter();
 		
 		List<ConverterTask> list = ConverterTasksListService.getTaskList(converterServiceUtil);
 		for(ConverterTask task : list) {
 			if (task.isFinished()) {
-				System.out.println("Removing task " + task.getId());
+				outputer.log("Removing task " + task.getId());
 				converterServiceUtil.getService().converterDestroyTask(converterServiceUtil.getServiceContent().getTaskManager(), task.getManagedObjectReference());
 			}
 		}
-		System.out.println("Done.");
+		outputer.result(true);
 	}
 
 	public String getCommand() {

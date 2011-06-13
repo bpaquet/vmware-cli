@@ -9,7 +9,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class ListResourcePools implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
@@ -17,14 +17,21 @@ public class ListResourcePools implements ICommand {
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(esxName);
 		List<ResourcePool> resourcePools = ResourcePoolService.getResourcePoolList(vimServiceUtil);
 
-		System.out.println("Found " + resourcePools.size() + " resource pool(s) on " + esxName);
-		if (resourcePools.size() > 0) {
-			System.out.println(String.format("%-20s", "Resource Pool Name"));
-			System.out.println("-------------------");
-			for (ResourcePool resourcePool : resourcePools) {
-				System.out.println(String.format("%-20s", resourcePool.getName()));
+		outputer.output(resourcePools, vimServiceUtil, new IObjectOutputer<List<ResourcePool>>() {
+
+			public void output(IOutputer outputer, VimServiceUtil vimServiceUtil, List<ResourcePool> resourcePools) {
+				outputer.log("Found " + resourcePools.size() + " resource pool(s) on " + vimServiceUtil.getEsxServer().getName());
+				if (resourcePools.size() > 0) {
+					outputer.log(String.format("%-20s", "Resource Pool Name"));
+					outputer.log("-------------------");
+					for (ResourcePool resourcePool : resourcePools) {
+						outputer.log(String.format("%-20s", resourcePool.getName()));
+					}
+				}
 			}
-		}
+			
+		});
+		
 	}
 
 	public String getSyntax() {

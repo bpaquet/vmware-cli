@@ -7,7 +7,7 @@ import com.octo.vmware.utils.ConverterServiceUtil;
 
 public class CancelTask implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
@@ -17,9 +17,9 @@ public class CancelTask implements ICommand {
 		managedObjectReference.setType("ConverterTask");
 		managedObjectReference.setValue("task-" + args[0]);
 		
-		System.out.println("Cancelling task " + args[0]);
+		outputer.log("Cancelling task " + args[0]);
 		converterServiceUtil.getService().converterCancelTask(managedObjectReference);
-		System.out.println("Done.");
+		outputer.result(true);
 	}
 
 	public String getCommand() {

@@ -12,7 +12,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class SetCpu implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 2) {
 			throw new SyntaxError();
 		}
@@ -20,11 +20,11 @@ public class SetCpu implements ICommand {
 		int numberOfCpu = Integer.parseInt(args[1]);
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
-		System.out.println("Set number of cpu : " + numberOfCpu + " for virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
+		outputer.log("Set number of cpu : " + numberOfCpu + " for virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		VirtualMachineConfigSpec configSpec = new VirtualMachineConfigSpec();
 		configSpec.setNumCPUs(numberOfCpu);
 		ManagedObjectReference task = vimServiceUtil.getService().reconfigVMTask(vmInfo.getManagedObjectReference(), configSpec);
-		System.out.println("Result : " + (PropertiesService.waitForTaskEnd(vimServiceUtil, task) ? "OK" : "Error"));
+		outputer.result(PropertiesService.waitForTaskEnd(vimServiceUtil, task));
 	}
 
 	public String getSyntax() {

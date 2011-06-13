@@ -72,7 +72,7 @@ public class Cli {
 			} else {
 				if (command.getCommand().equals(run)) {
 					try {
-						command.execute(args);
+						command.execute(new Outputer(), args);
 						return true;
 					} catch (SyntaxError e) {
 						System.err.println("Wrong command syntax :\n" + format(command));
@@ -86,7 +86,7 @@ public class Cli {
 
 	class Help implements ICommand {
 
-		public void execute(String[] args) throws Exception {
+		public void execute(IOutputer outputer, String[] args) throws Exception {
 		}
 
 		public String getCommand() {

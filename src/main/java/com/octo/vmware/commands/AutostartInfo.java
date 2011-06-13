@@ -14,7 +14,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class AutostartInfo implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
@@ -23,20 +23,32 @@ public class AutostartInfo implements ICommand {
 		List<VmInfo> vmInfos = VmsListService.getVmsList(vimServiceUtil);
 		HostConfigInfo hostConfigInfo = HostConfigService.getHostConfig(vimServiceUtil, "config");
 		HostAutoStartManagerConfig hostAutoStartManagerConfig = hostConfigInfo.getAutoStart();
-		System.out.println("Found " + vmInfos.size() + " VM(s) on " + esxName);
-		if (vmInfos.size() > 0) {
-			System.out.println(String.format("%-30s %-10s %-10s", "VM Name", "Autostart", "Stop action"));
-			System.out.println("----------------------------------------------");
-			for(VmInfo vmInfo : vmInfos) {
-				AutoStartPowerInfo autostart = null;
-				for(AutoStartPowerInfo autoStartPowerInfo : hostAutoStartManagerConfig.getPowerInfo()) {
-					if (vmInfo.getManagedObjectReference().getValue().equals(autoStartPowerInfo.getKey().getValue())) {
-						autostart = autoStartPowerInfo;
-					}
+		for(VmInfo vmInfo : vmInfos) {
+			AutoStartPowerInfo autostart = null;
+			for(AutoStartPowerInfo autoStartPowerInfo : hostAutoStartManagerConfig.getPowerInfo()) {
+				if (vmInfo.getManagedObjectReference().getValue().equals(autoStartPowerInfo.getKey().getValue())) {
+					autostart = autoStartPowerInfo;
 				}
-				System.out.println(String.format("%-30s %-10s %-10s", vmInfo.getName(), autostart != null ? "Enable" : "", autostart != null ? autostart.getStopAction() : ""));
+			}
+			if (autostart != null) {
+				vmInfo.setAutoStart(autostart.getStopAction());
 			}
 		}
+		
+		outputer.output(vmInfos, vimServiceUtil, new IObjectOutputer<List<VmInfo>>() {
+
+			public void output(IOutputer outputer, VimServiceUtil vimServiceUtil, List<VmInfo> vmInfos) {
+				System.out.println("Found " + vmInfos.size() + " VM(s) on " + vimServiceUtil.getEsxServer().getName());
+				if (vmInfos.size() > 0) {
+					outputer.log(String.format("%-30s %-10s %-10s", "VM Name", "Autostart", "Stop action"));
+					outputer.log("----------------------------------------------");
+					for(VmInfo vmInfo : vmInfos) {
+						outputer.log(String.format("%-30s %-10s %-10s", vmInfo.getName(), vmInfo.getAutoStart() != null ? "Enable" : "", vmInfo.getAutoStart() != null ? vmInfo.getAutoStart() : ""));
+					}
+				}
+			}
+			
+		});
 	}
 
 	public String getSyntax() {

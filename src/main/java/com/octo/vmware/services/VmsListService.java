@@ -22,8 +22,9 @@ import vim25.VirtualMachineConfigInfoDatastoreUrlPair;
 import vim25.VirtualMachineRuntimeInfo;
 
 import com.octo.vmware.entities.ResourcePool;
-import com.octo.vmware.entities.VMNetwork;
 import com.octo.vmware.entities.VmInfo;
+import com.octo.vmware.entities.VmLocation;
+import com.octo.vmware.entities.VmNetwork;
 import com.octo.vmware.utils.TraversalSpecHelper;
 import com.octo.vmware.utils.VimServiceUtil;
 
@@ -71,7 +72,9 @@ public class VmsListService {
 			vmInfo.setManagedObjectReference(obj.getObj());
 			for (DynamicProperty prop : obj.getPropSet()) {
 				if (prop.getName().equals("name")) {
-					vmInfo.setName(prop.getVal().toString());
+					String name = prop.getVal().toString();
+					vmInfo.setName(name);
+					vmInfo.setVmLocation(new VmLocation(vimServiceUtil.getEsxServer().getName(), name));
 				}
 				else if (prop.getName().equals("resourcePool")) {
 					ManagedObjectReference managedObjectReference = (ManagedObjectReference) prop.getVal();
@@ -94,12 +97,12 @@ public class VmsListService {
 					vmInfo.setRam(configInfo.getHardware().getMemoryMB());
 					vmInfo.setCpu(configInfo.getHardware().getNumCPU());
 					
-					List<VMNetwork> networks = new ArrayList<VMNetwork>();
+					List<VmNetwork> networks = new ArrayList<VmNetwork>();
 					List<String> disks = new ArrayList<String>();
 					for(VirtualDevice vd : configInfo.getHardware().getDevice()) {
 						if (vd instanceof VirtualEthernetCard) {
 							VirtualEthernetCardNetworkBackingInfo cardNetworkBackingInfo = (VirtualEthernetCardNetworkBackingInfo) vd.getBacking();
-							VMNetwork network = new VMNetwork();
+							VmNetwork network = new VmNetwork();
 							network.setNetworkName(cardNetworkBackingInfo.getDeviceName());
 							network.setType(vd.getClass().getSimpleName());
 							network.setKey(vd.getKey());

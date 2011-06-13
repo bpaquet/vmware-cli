@@ -17,7 +17,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class AutostartEnable implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
@@ -41,7 +41,7 @@ public class AutostartEnable implements ICommand {
 		if (target == null) {
 			throw new RuntimeException("Virtual machine not found " + vmLocation.getVmName());
 		}
-		System.out.println("Enable auto start for virtual machine : " + vmLocation.getVmName());
+		outputer.log("Enable auto start for virtual machine : " + vmLocation.getVmName());
 		AutoStartPowerInfo n = new AutoStartPowerInfo();
 		n.setKey(target.getManagedObjectReference());
 		n.setDynamicType(null);
@@ -53,7 +53,7 @@ public class AutostartEnable implements ICommand {
 		n.setWaitForHeartbeat(AutoStartWaitHeartbeatSetting.SYSTEM_DEFAULT);
 		hostAutoStartManagerConfig.getPowerInfo().add(n);
 		vimServiceUtil.getService().reconfigureAutostart(hostConfigManager.getAutoStartManager(), hostAutoStartManagerConfig);
-		System.out.println("Done");
+		outputer.result(true);
 	}
 
 	public String getSyntax() {

@@ -6,6 +6,11 @@ public class VmLocation {
 	
 	private String vmName;
 
+	public VmLocation(String esxName, String vmName) {
+		this.esxName = esxName;
+		this.vmName = vmName;
+	}
+	
 	public VmLocation(String s) {
 		String [] splitted = s.split(":");
 		if (splitted.length != 2) {

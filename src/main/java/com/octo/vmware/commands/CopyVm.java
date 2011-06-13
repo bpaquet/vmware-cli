@@ -40,7 +40,7 @@ public class CopyVm implements ICommand {
 	private static final String NETWORK = "network";
 	private static final String RESOURCE_POOL = "resource_pool";
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length < 2) {
 			throw new SyntaxError();
 		}
@@ -53,7 +53,7 @@ public class CopyVm implements ICommand {
 			}
 			opts.put(splitted[0], splitted[1]);
 		}
-		System.out.println("Build copy task");
+		outputer.log("Build copy task");
 		
 		ConverterServiceUtil converterServiceUtil = ConverterServiceUtil.getConverter();
 		
@@ -63,7 +63,7 @@ public class CopyVm implements ICommand {
 		if (!VirtualMachinePowerState.POWERED_OFF.toString().equals(vmFrom.getStatus())) {
 			throw new RuntimeException("Virtual machine " + vmFrom.getName() + " in bad state : " + vmFrom.getStatus());
 		}
-		System.out.println("From : " + vmFrom.getName() + " on esx server " + vmLocationFrom.getEsxName());
+		outputer.log("From : " + vmFrom.getName() + " on esx server " + vmLocationFrom.getEsxName());
 		
 		VmLocation vmLocationDest = new VmLocation(args[1]);
 		VimServiceUtil vimServiceUtilDest = VimServiceUtil.get(vmLocationDest.getEsxName());
@@ -78,7 +78,7 @@ public class CopyVm implements ICommand {
 		
 		ConverterConversionParams conversionParams = makeConversionParams(vmLocationDest, vimServiceUtilDest, opts);
 		
-		System.out.println("Validating task");
+		outputer.log("Validating task");
 		converterServiceUtil.getService().converterValidateParams(converterServiceUtil.getServiceContent().getQueryManager(), computerSpec, null, conversionParams);
 		
 		ConverterServerConversionConversionJobSpec conversionConversionJobSpec = new ConverterServerConversionConversionJobSpec();
@@ -86,14 +86,14 @@ public class CopyVm implements ICommand {
 		conversionConversionJobSpec.setConversionParams(conversionParams);
 		conversionConversionJobSpec.setName("job" + UUID.randomUUID());
 		
-		System.out.println("Launching task");
+		outputer.log("Launching task");
 		
 		ConverterServerConversionConversionJobInfo job = converterServiceUtil.getService().converterServerConversionManagerCreateJob(converterServiceUtil.getServiceContent().getConversionManager(), conversionConversionJobSpec, null);
 		Thread.sleep(5000);
 		ConverterServerConversionConversionJobInfo jobAfter5000 = converterServiceUtil.getService().converterServerConversionManagerGetJobInfo(converterServiceUtil.getServiceContent().getConversionManager(), job.getJob());
 		String id = jobAfter5000.getActiveTask().getValue().substring(5);
-		System.out.println("Task created, id " +  id);
-		waitForEnd(converterServiceUtil, id);
+		outputer.log("Task created, id " +  id);
+		waitForEnd(outputer, converterServiceUtil, id);
 	}
 
 	private ConverterConversionParams makeConversionParams(VmLocation vmLocationDest, VimServiceUtil vimServiceUtilDest, Map<String, String> opts) throws Exception {
@@ -158,18 +158,15 @@ public class CopyVm implements ICommand {
 		return computerSpec;
 	}
 	
-	private void waitForEnd(ConverterServiceUtil converterServiceUtil, String id) throws Exception {
+	private void waitForEnd(IOutputer outputer, ConverterServiceUtil converterServiceUtil, String id) throws Exception {
 		while(true) {
 			Thread.sleep(30000);
 			ConverterTask converterTask = ConverterTasksListService.getTask(converterServiceUtil, id);
 			if (converterTask.isFinished()) {
-				System.out.println("Result " + converterTask.getStatus());
-				if (!converterTask.isSuccess()) {
-					throw new RuntimeException("Copy error");
-				}
+				outputer.result(converterTask.isSuccess());
 				return;
 			}
-			System.out.println("Progression : " + converterTask.getProgress() + "%");
+			outputer.log("Progression : " + converterTask.getProgress() + "%");
 		}
 	}
 

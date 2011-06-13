@@ -8,16 +8,16 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class MountVmwareTools implements ICommand {
 
-	public void execute(String[] args) throws Exception {
+	public void execute(IOutputer outputer, String[] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
 		VmLocation vmLocation = new VmLocation(args[0]);
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
-		System.out.println("Mount tools install on virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
+		outputer.log("Mount tools install on virtual machine " + vmInfo.getName() + " on host " + vmLocation.getEsxName());
 		vimServiceUtil.getService().mountToolsInstaller(vmInfo.getManagedObjectReference());
-		System.out.println("Done");
+		outputer.result(true);
 	}
 
 

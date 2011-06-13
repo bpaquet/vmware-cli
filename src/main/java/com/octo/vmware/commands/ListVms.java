@@ -12,7 +12,7 @@ import com.octo.vmware.utils.VimServiceUtil;
 
 public class ListVms implements ICommand {
 
-	public void execute(String [] args) throws Exception {
+	public void execute(IOutputer outputer, String [] args) throws Exception {
 		if (args.length != 1) {
 			throw new SyntaxError();
 		}
@@ -20,23 +20,31 @@ public class ListVms implements ICommand {
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(esxName);
 		List<VmInfo> vmsList = VmsListService.getVmsList(vimServiceUtil);
 
-		System.out.println("Found " + vmsList.size() + " VM(s) on " + esxName);
-		if (vmsList.size() > 0) {
-			System.out.println(String.format("%-20s %-30s %11s %-9s %-40s", "Resource Pool", "VM Name", "Status", "CPU/RAM", "Guest"));
-			System.out.println("--------------------------------------------------------------------------------------");
-			for (VmInfo info : vmsList) {
-				System.out.println(String.format("%-20s %-30s %11s %2d %6d %s", info.getResourcePool().getName(), info.getName(), info.getStatus(), info.getCpu(), info.getRam(), formatGuest(info)));
+		outputer.log("Found " + vmsList.size() + " VM(s) on " + esxName);
+		outputer.output(vmsList, vimServiceUtil, new IObjectOutputer<List<VmInfo>>() {
+
+			public void output(IOutputer outputer, VimServiceUtil vimServiceUtil, List<VmInfo> vmsList) {
+				if (vmsList.size() > 0) {
+					outputer.log(String.format("%-20s %-30s %11s %-9s %-40s", "Resource Pool", "VM Name", "Status", "CPU/RAM", "Guest"));
+					outputer.log("--------------------------------------------------------------------------------------");
+					for (VmInfo info : vmsList) {
+						outputer.log(String.format("%-20s %-30s %11s %2d %6d %s", info.getResourcePool().getName(), info.getName(), info.getStatus(), info.getCpu(), info.getRam(), formatGuest(info)));
+					}
+				}
 			}
-		}
-	}
-	
-	private String formatGuest(VmInfo vmInfo) {
-		if (VirtualMachineToolsStatus.TOOLS_OK.toString().equals(vmInfo.getGuestToolsStatus())) {
-			return vmInfo.getGuestToolsStatus() + " (" + vmInfo.getGuestIp() + " : " + vmInfo.getGuestHostname() + ")";
-		}
-		else {
-			return VirtualMachinePowerState.POWERED_ON.toString().equals(vmInfo.getStatus()) ? vmInfo.getGuestToolsStatus() : "";
-		}
+			
+			private String formatGuest(VmInfo vmInfo) {
+				if (VirtualMachineToolsStatus.TOOLS_OK.toString().equals(vmInfo.getGuestToolsStatus())) {
+					return vmInfo.getGuestToolsStatus() + " (" + vmInfo.getGuestIp() + " : " + vmInfo.getGuestHostname() + ")";
+				}
+				else {
+					return VirtualMachinePowerState.POWERED_ON.toString().equals(vmInfo.getStatus()) ? vmInfo.getGuestToolsStatus() : "";
+				}
+			}
+			
+		});
+		
+		
 	}
 
 	public String getSyntax() {
