@@ -3,9 +3,12 @@ package com.octo.vmware.commands;
 import vim25.ManagedObjectReference;
 import vim25.VirtualDeviceConfigSpec;
 import vim25.VirtualDeviceConfigSpecOperation;
+import vim25.VirtualE1000;
 import vim25.VirtualEthernetCard;
 import vim25.VirtualEthernetCardNetworkBackingInfo;
 import vim25.VirtualMachineConfigSpec;
+import vim25.VirtualPCNet32;
+import vim25.VirtualVmxnet2;
 import vim25.VirtualVmxnet3;
 
 import com.octo.vmware.ICommand;
@@ -19,10 +22,27 @@ import com.octo.vmware.utils.VimServiceUtil;
 public class ReconfigureNetworkCards implements ICommand {
 
 	public void execute(IOutputer outputer, String[] args) throws Exception {
-		if (args.length != 1) {
+		if (args.length != 2) {
 			throw new SyntaxError();
 		}
 		VmLocation vmLocation = new VmLocation(args[0]);
+		Class<?> clazz = null;
+		if ("vmxnet3".equals(args[1])) {
+			clazz = VirtualVmxnet3.class;
+		}
+		if ("vmxnet2".equals(args[1])) {
+			clazz = VirtualVmxnet2.class;
+		}
+		if ("e1000".equals(args[1])) {
+			clazz = VirtualE1000.class;
+		}
+		if ("pcnet32".equals(args[1])) {
+			clazz = VirtualPCNet32.class;
+		}
+		if (clazz == null) {
+			throw new SyntaxError();
+		}
+		
 		VimServiceUtil vimServiceUtil = VimServiceUtil.get(vmLocation.getEsxName());
 		VmInfo vmInfo = VmsListService.findVmByName(vimServiceUtil, vmLocation.getVmName());
 		VirtualMachineConfigSpec configSpec = new VirtualMachineConfigSpec();
@@ -35,7 +55,7 @@ public class ReconfigureNetworkCards implements ICommand {
 			specRemove.setOperation(VirtualDeviceConfigSpecOperation.REMOVE);
 			configSpec.getDeviceChange().add(specRemove);
 			
-			VirtualEthernetCard newCard = new VirtualVmxnet3();
+			VirtualEthernetCard newCard = (VirtualEthernetCard) clazz.newInstance();
 			VirtualEthernetCardNetworkBackingInfo backingInfo = new VirtualEthernetCardNetworkBackingInfo();
 			backingInfo.setDeviceName(network.getNetworkName());
 			newCard.setBacking(backingInfo);
@@ -51,7 +71,7 @@ public class ReconfigureNetworkCards implements ICommand {
 	}
 
 	public String getSyntax() {
-		return "esx_name:vm_name"; 
+		return "esx_name:vm_name [vmxnet3|vmxnet2|e1000|pcnet32]"; 
 	}
 
 	public String getHelp() {
