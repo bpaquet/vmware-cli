@@ -28,7 +28,7 @@ public class DeleteFromDisk implements ICommand {
 	}
 
 	public String getHelp() {
-		return "delete a virtual machone from an esx host";
+		return "delete a virtual machine from an esx host";
 	}
 
 	public String getSyntax() {

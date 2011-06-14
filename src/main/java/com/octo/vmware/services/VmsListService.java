@@ -22,6 +22,7 @@ import vim25.VirtualMachineConfigInfoDatastoreUrlPair;
 import vim25.VirtualMachineRuntimeInfo;
 
 import com.octo.vmware.entities.ResourcePool;
+import com.octo.vmware.entities.VmDisk;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.entities.VmLocation;
 import com.octo.vmware.entities.VmNetwork;
@@ -98,7 +99,7 @@ public class VmsListService {
 					vmInfo.setCpu(configInfo.getHardware().getNumCPU());
 					
 					List<VmNetwork> networks = new ArrayList<VmNetwork>();
-					List<String> disks = new ArrayList<String>();
+					List<VmDisk> disks = new ArrayList<VmDisk>();
 					for(VirtualDevice vd : configInfo.getHardware().getDevice()) {
 						if (vd instanceof VirtualEthernetCard) {
 							VirtualEthernetCardNetworkBackingInfo cardNetworkBackingInfo = (VirtualEthernetCardNetworkBackingInfo) vd.getBacking();
@@ -109,13 +110,19 @@ public class VmsListService {
 							networks.add(network);
 						}
 						if (vd instanceof VirtualDisk) {
+							VmDisk virtualDisk = new VmDisk();
 							if (vd.getBacking() instanceof VirtualDiskFlatVer2BackingInfo) {
 								VirtualDiskFlatVer2BackingInfo virtualDiskFlatVer2BackingInfo = (VirtualDiskFlatVer2BackingInfo) vd.getBacking();
-								disks.add(virtualDiskFlatVer2BackingInfo.getFileName());
+								virtualDisk.setFileName(virtualDiskFlatVer2BackingInfo.getFileName());
 							}
 							else {
-								disks.add(vd.getBacking().getClass().getSimpleName());
+								virtualDisk.setFileName(vd.getBacking().getClass().getSimpleName());
 							}
+							virtualDisk.setControllerKey(vd.getControllerKey());
+							virtualDisk.setUnitNumber(vd.getUnitNumber());
+							virtualDisk.setKey(vd.getKey());
+							virtualDisk.setSizeKb(((VirtualDisk) vd).getCapacityInKB());
+							disks.add(virtualDisk);
 						}
 					}
 					vmInfo.setNetworks(networks);

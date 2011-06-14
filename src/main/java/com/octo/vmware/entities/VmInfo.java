@@ -26,7 +26,7 @@ public class VmInfo {
 
 	private List<String> datastores;
 	private List<VmNetwork> networks;
-	private List<String> disks;
+	private List<VmDisk> disks;
 
 	private ManagedObjectReference managedObjectReference;
 
@@ -146,11 +146,11 @@ public class VmInfo {
 		this.networks = networks;
 	}
 
-	public List<String> getDisks() {
+	public List<VmDisk> getDisks() {
 		return disks;
 	}
 
-	public void setDisks(List<String> disks) {
+	public void setDisks(List<VmDisk> disks) {
 		this.disks = disks;
 	}
 

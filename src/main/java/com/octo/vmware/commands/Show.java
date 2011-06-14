@@ -1,6 +1,8 @@
 package com.octo.vmware.commands;
 
 import com.octo.vmware.ICommand;
+import com.octo.vmware.SizeFormatter;
+import com.octo.vmware.entities.VmDisk;
 import com.octo.vmware.entities.VmInfo;
 import com.octo.vmware.entities.VmLocation;
 import com.octo.vmware.entities.VmNetwork;
@@ -38,8 +40,8 @@ public class Show implements ICommand {
 				}
 				outputer.log(datastores);
 				String disks = "Disks : ";
-				for(String s : vmInfo.getDisks()) {
-					disks += s + ", ";
+				for(VmDisk vmDisk : vmInfo.getDisks()) {
+					disks += vmDisk.getFileName() + " [size=" + SizeFormatter.formatSizeKb(vmDisk.getSizeKb()) + ", unitNumber=" + vmDisk.getUnitNumber() + "], ";
 				}
 				outputer.log(disks);
 				String networks = "Networks : ";
