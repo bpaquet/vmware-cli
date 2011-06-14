@@ -46,7 +46,7 @@ public class AddDisk implements ICommand {
 		
 		String diskUrl = computeNewDiskUrl(vmInfo.getDisks().get(0).getFileName(), unitNumber);
 		
-		outputer.log("Creating disk " + diskUrl + ", size " + SizeFormatter.formatSizeKb(sizeKb) + " GB, unitNumber " + unitNumber + " on virtual machine " + vmInfo.getName());
+		outputer.log("Creating disk " + diskUrl + ", size " + SizeFormatter.formatSizeKb(sizeKb) + ", unitNumber " + unitNumber + " on virtual machine " + vmInfo.getName());
 		
 		FileBackedVirtualDiskSpec diskSpec = new FileBackedVirtualDiskSpec();
 		diskSpec.setCapacityKb(sizeKb);
