@@ -26,6 +26,7 @@ import com.octo.vmware.commands.SetMem;
 import com.octo.vmware.commands.Show;
 import com.octo.vmware.commands.ShutdownGuest;
 import com.octo.vmware.commands.UnMountVmwareTools;
+import com.octo.vmware.commands.Revert;
 
 public interface ICommands {
 
@@ -34,6 +35,6 @@ public interface ICommands {
 			new MoveIntoResourcePool(), new ListResourcePools(), new AutostartInfo(), new AutostartEnable(),
 			new AutostartDisable(), new DeleteFromDisk(), new ListTasks(), new CancelTask(), new CopyVm(),
 			new ClearFinishedTasks(), new SetCpu(), new SetMem(), new SetGuestOs(), new ReconfigureNetworkCards(),
-			new ListDatastores(), new AddDisk(), new RemoveDisk()};
+			new ListDatastores(), new AddDisk(), new RemoveDisk(), new Revert()};
 
 }
