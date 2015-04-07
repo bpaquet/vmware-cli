@@ -42,10 +42,10 @@ public class VmsListService {
 
 	public static List<VmInfo> getVmsList(VimServiceUtil vimServiceUtil) throws Exception {
 		TraversalSpec traversalSpec = new TraversalSpec();
-		ts.setName("taverseEntities");
-		ts.setPath("view");
-		ts.setSkip(false);
-		ts.setType("ContainerView");
+		traversalSpec.setName("taverseEntities");
+		traversalSpec.setPath("view");
+		traversalSpec.setSkip(false);
+		traversalSpec.setType("ContainerView");
 
                 List<String> objectTypes = Arrays.asList(new String[]{"VirtualMachine"});
 		ManagedObjectReference containerView = vimServiceUtil.getService().createContainerView(
@@ -76,7 +76,7 @@ public class VmsListService {
 		List<ObjectContent> vms = vimServiceUtil.getService().retrieveProperties(
 				vimServiceUtil.getServiceContent().getPropertyCollector(), propertyFilterSpecsList);
 
-               vimServiceUtil.getService().destroyView(containerView);
+                vimServiceUtil.getService().destroyView(containerView);
 
 		// Build return list
 		List<VmInfo> list = new ArrayList<VmInfo>();
