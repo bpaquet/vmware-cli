@@ -41,12 +41,22 @@ public class VmsListService {
 	}
 
 	public static List<VmInfo> getVmsList(VimServiceUtil vimServiceUtil) throws Exception {
-		TraversalSpec dataCenterToVMFolder = TraversalSpecHelper.makeTraversalSpec("Datacenter", "vmFolder", "DataCenterToVMFolder", false, new String[]{"VisitFolders"}, new TraversalSpec[]{});
-		TraversalSpec traversalSpec = TraversalSpecHelper.makeTraversalSpec("Folder", "childEntity", "VisitFolders", false, new String[]{}, new TraversalSpec[]{dataCenterToVMFolder});
-		
+		TraversalSpec traversalSpec = new TraversalSpec();
+		ts.setName("taverseEntities");
+		ts.setPath("view");
+		ts.setSkip(false);
+		ts.setType("ContainerView");
+
+                List<String> objectTypes = Arrays.asList(new String[]{"VirtualMachine"});
+		ManagedObjectReference containerView = vimServiceUtil.getService().createContainerView(
+				vimServiceUtil.getServiceContent().getViewManager(),
+				vimServiceUtil.getServiceContent().getRootFolder(), objectTypes, true
+                        );
+
 		ObjectSpec objectSpec = new ObjectSpec();
-		objectSpec.setObj(vimServiceUtil.getServiceContent().getRootFolder());
+		objectSpec.setObj(containerView);
 		objectSpec.setSkip(true);
+
 		objectSpec.getSelectSet().add(traversalSpec);
 		
 		PropertySpec propertySpec = new PropertySpec();
@@ -65,6 +75,8 @@ public class VmsListService {
 		List<PropertyFilterSpec> propertyFilterSpecsList = Arrays.asList(propertyFilterSpec);
 		List<ObjectContent> vms = vimServiceUtil.getService().retrieveProperties(
 				vimServiceUtil.getServiceContent().getPropertyCollector(), propertyFilterSpecsList);
+
+               vimServiceUtil.getService().destroyView(containerView);
 
 		// Build return list
 		List<VmInfo> list = new ArrayList<VmInfo>();
